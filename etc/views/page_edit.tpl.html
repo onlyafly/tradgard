@@ -1,3 +1,12 @@
 {{define "page_edit"}}
-<pre>{{ .MarkdownContent }}</pre>
+<form action="/page/{{.PageID}}/save" method="post">
+    <div>
+        <label for="content">Content:</label>
+        <textarea id="content" name="markdown_content">{{.MarkdownContent}}</textarea>
+    </div>
+
+    <div class="button">
+        <button type="submit">Save</button>
+    </div>
+</form>
 {{end}}

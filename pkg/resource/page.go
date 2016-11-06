@@ -1,6 +1,7 @@
 package resource
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -43,12 +44,32 @@ func (r *PageResource) ViewEdit(c echo.Context) error {
 	}
 
 	data := struct {
+		PageID          int64
 		MarkdownContent string
 	}{
+		p.ID,
 		p.Content,
 	}
 
 	return c.Render(http.StatusOK, "page_edit", data)
+}
+
+// PostSave shows the editor for a page
+func (r *PageResource) PostSave(c echo.Context) error {
+	p, err := r.fetchPageFromParam(c, "id")
+	if err != nil {
+		return err
+	}
+
+	updatedContent := c.FormValue("markdown_content")
+
+	p.Content = updatedContent
+
+	if err := r.PageService.Update(p); err != nil {
+		return err
+	}
+
+	return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/page/%d", p.ID))
 }
 
 func (r *PageResource) fetchPageFromParam(c echo.Context, idParam string) (*service.PageModel, error) {

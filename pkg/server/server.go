@@ -73,6 +73,7 @@ func Start(config Config) {
 
 	e.GET("/page/:id", pageResource.View)
 	e.GET("/page/:id/edit", pageResource.ViewEdit)
+	e.POST("/page/:id/save", pageResource.PostSave)
 
 	e.GET("/name/:name", func(c echo.Context) error {
 		name := c.Param("name")

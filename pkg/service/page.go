@@ -17,7 +17,7 @@ type PageModel struct {
 	Content string `db:"content"`
 }
 
-// Get retrieves one page
+// Get one page
 func (s *PageService) Get(key int64) (*PageModel, error) {
 	stmt := `SELECT *
            FROM pages
@@ -33,4 +33,13 @@ func (s *PageService) Get(key int64) (*PageModel, error) {
 	default:
 		return nil, err
 	}
+}
+
+// Update a page in the DB
+func (s *PageService) Update(p *PageModel) error {
+	stmt := `UPDATE pages
+	         SET content = :content
+           WHERE id = :id`
+	_, err := s.DB.NamedExec(stmt, p)
+	return err
 }
