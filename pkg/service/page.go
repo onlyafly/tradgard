@@ -14,6 +14,7 @@ type PageService struct {
 // PageModel represents a page in the DB
 type PageModel struct {
 	ID      int64  `db:"id"`
+	Name    string `db:"name"`
 	Content string `db:"content"`
 }
 
@@ -38,7 +39,9 @@ func (s *PageService) Get(key int64) (*PageModel, error) {
 // Update a page in the DB
 func (s *PageService) Update(p *PageModel) error {
 	stmt := `UPDATE pages
-	         SET content = :content
+	         SET
+					   content = :content,
+						 name = :name
            WHERE id = :id`
 	_, err := s.DB.NamedExec(stmt, p)
 	return err

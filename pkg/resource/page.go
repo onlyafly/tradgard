@@ -27,11 +27,13 @@ func (r *PageResource) View(c echo.Context) error {
 	htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
 
 	data := struct {
-		PageID  int64
-		Content template.HTML
-		Context echo.Context
+		PageID      int64
+		PageName    string
+		PageContent template.HTML
+		Context     echo.Context
 	}{
 		p.ID,
+		p.Name,
 		template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
 		c,
 	}
@@ -51,11 +53,13 @@ func (r *PageResource) ViewEdit(c echo.Context) error {
 	}
 
 	data := struct {
-		PageID          int64
-		MarkdownContent string
-		Context         echo.Context
+		PageID      int64
+		PageName    string
+		PageContent string
+		Context     echo.Context
 	}{
 		p.ID,
+		p.Name,
 		p.Content,
 		c,
 	}
@@ -70,9 +74,8 @@ func (r *PageResource) PostSave(c echo.Context) error {
 		return err
 	}
 
-	updatedContent := c.FormValue("markdown_content")
-
-	p.Content = updatedContent
+	p.Name = c.FormValue("page_name")
+	p.Content = c.FormValue("page_content")
 
 	if err := r.PageService.Update(p); err != nil {
 		return err

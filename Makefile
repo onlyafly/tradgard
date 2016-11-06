@@ -8,4 +8,7 @@ deps:
 	go get -u github.com/kardianos/govendor
 	govendor sync
 
-.PHONY: all build deps
+clean:
+	kill -9 $(lsof -i tcp:5000 | grep tradgard | cut -d' ' -f2)
+
+.PHONY: all build clean deps

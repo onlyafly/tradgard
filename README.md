@@ -33,10 +33,6 @@ Fetch all referenced dependencies
 
 #### Error starting server listen tcp :5000: bind: address already in use
 
-Find process using this port
-
-    lsof -i tcp:5000
-
 Kill the process
 
-    kill -9 <pid>
+    make clean

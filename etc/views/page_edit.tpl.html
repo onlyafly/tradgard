@@ -2,8 +2,12 @@
 {{template "partial_header" .}}
 <form action="/page/{{.PageID}}/save" method="post">
     <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="page_name" value="{{.PageName}}">
+    </div>
+    <div>
         <label for="content">Content:</label>
-        <textarea id="content" name="markdown_content">{{.MarkdownContent}}</textarea>
+        <textarea id="content" name="page_content">{{.PageContent}}</textarea>
     </div>
 
     <div class="button">
