@@ -4,21 +4,25 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"os"
+	"strconv"
 
+	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/engine/standard"
 	echoMiddleware "github.com/labstack/echo/middleware"
 	"github.com/onlyafly/tradgard/pkg/middleware"
+	"github.com/onlyafly/tradgard/pkg/service"
 	"github.com/russross/blackfriday"
 )
 
-const (
-	defaultPort = "5000"
-)
+// Config is the config for starting the server
+type Config struct {
+	Port     string
+	Database *sqlx.DB
+}
 
 // Start the web server
-func Start() {
+func Start(config Config) {
 	e := echo.New()
 
 	// SetLogLevel sets the log level for the logger. Default value 5 (OFF). Possible values:
@@ -42,20 +46,28 @@ func Start() {
 	}
 	e.SetRenderer(r)
 
+	// Services
+
+	pageService := &service.PageService{
+		DB: config.Database,
+	}
+
+	// Routes
+
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
 	e.GET("/test", func(c echo.Context) error {
-		input := "**Hi**"
-		output := blackfriday.MarkdownCommon([]byte(input))
+		markdownContent := "**Hi**"
+		output := blackfriday.MarkdownCommon([]byte(markdownContent))
 		return c.HTML(http.StatusOK, string(output))
 	})
 
 	e.GET("/page/:name", func(c echo.Context) error {
 		name := c.Param("name")
-		input := fmt.Sprintf("Hi, **%s**!", name)
-		output := blackfriday.MarkdownCommon([]byte(input))
+		markdownContent := fmt.Sprintf("Hi, **%s**!", name)
+		output := blackfriday.MarkdownCommon([]byte(markdownContent))
 
 		data := struct {
 			DudeName string
@@ -68,16 +80,40 @@ func Start() {
 		return c.Render(http.StatusOK, "hello", data)
 	})
 
-	e.Static("/static", "static")
+	e.GET("/page/id/:id", func(c echo.Context) error {
+		idString := c.Param("id")
 
-	port := getEnvOr("PORT", defaultPort)
-	fmt.Println("Tradgard starting on port " + port + "!")
-	e.Run(standard.New(":" + port))
-}
+		id, err := strconv.ParseInt(idString, 10, 64)
+		if err != nil {
+			return err
+		}
 
-func getEnvOr(envVar, fallback string) string {
-	if result := os.Getenv(envVar); result != "" {
-		return result
+		p, err := pageService.Get(id)
+		if err != nil {
+			return err
+		} else if p == nil {
+			return echo.NewHTTPError(http.StatusNotFound, "page not found")
+		}
+
+		htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
+
+		data := struct {
+			DudeName string
+			Content  template.HTML
+		}{
+			idString,
+			template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
+		}
+
+		return c.Render(http.StatusOK, "hello", data)
+	})
+
+	e.Static("/", "static")
+
+	fmt.Println("Tradgard starting on port " + config.Port + "!")
+
+	if err := e.Run(standard.New(":" + config.Port)); err != nil {
+		fmt.Println("Error starting server", err)
 	}
-	return fallback
+
 }

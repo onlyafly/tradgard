@@ -15,6 +15,18 @@
 			"revisionTime": "2016-11-01T19:39:35Z"
 		},
 		{
+			"checksumSHA1": "p/qzxBRYGQTr4JKDAN8JxtSv5iU=",
+			"path": "github.com/jmoiron/sqlx",
+			"revision": "5f97679e23f75f42b265fec8d3bdb1c8de90b79d",
+			"revisionTime": "2016-10-29T03:41:37Z"
+		},
+		{
+			"checksumSHA1": "NJHTyLwheqVk7+syzj9UN7p1dKs=",
+			"path": "github.com/jmoiron/sqlx/reflectx",
+			"revision": "5f97679e23f75f42b265fec8d3bdb1c8de90b79d",
+			"revisionTime": "2016-10-29T03:41:37Z"
+		},
+		{
 			"checksumSHA1": "pJBSQjwuY6WO7o6MCmC+kwLO2IM=",
 			"path": "github.com/labstack/echo",
 			"revision": "2fc0d3d3f381f9c1d19347d68485ffb47186f9af",
@@ -73,6 +85,54 @@
 			"path": "github.com/labstack/gommon/random",
 			"revision": "2d272df536d051e737aea353b86c979d6e88bce0",
 			"revisionTime": "2016-10-23T20:04:48Z"
+		},
+		{
+			"checksumSHA1": "avqi4lkviHdrNJ92cXCwrw9x870=",
+			"path": "github.com/lib/pq",
+			"revision": "d8eeeb8bae8896dd8e1b7e514ab0d396c4f12a1b",
+			"revisionTime": "2016-11-03T02:43:54Z"
+		},
+		{
+			"checksumSHA1": "xppHi82MLqVx1eyQmbhTesAEjx8=",
+			"path": "github.com/lib/pq/oid",
+			"revision": "d8eeeb8bae8896dd8e1b7e514ab0d396c4f12a1b",
+			"revisionTime": "2016-11-03T02:43:54Z"
+		},
+		{
+			"checksumSHA1": "lJoKNrsdF14ar8hvpYt2f0u1usk=",
+			"path": "github.com/mattes/migrate/driver",
+			"revision": "ce1b59bb819416ca67422929b1cb48bb342720b6",
+			"revisionTime": "2016-03-21T21:09:30Z"
+		},
+		{
+			"checksumSHA1": "YKeZaylqov5XYO7hsA5HalRS/dU=",
+			"path": "github.com/mattes/migrate/driver/postgres",
+			"revision": "ce1b59bb819416ca67422929b1cb48bb342720b6",
+			"revisionTime": "2016-03-21T21:09:30Z"
+		},
+		{
+			"checksumSHA1": "aIuXAOtdrloDuV7IlKbyzB3Ci94=",
+			"path": "github.com/mattes/migrate/file",
+			"revision": "ce1b59bb819416ca67422929b1cb48bb342720b6",
+			"revisionTime": "2016-03-21T21:09:30Z"
+		},
+		{
+			"checksumSHA1": "cbOkBr/ZgoiRFzHix/86J3P8hYY=",
+			"path": "github.com/mattes/migrate/migrate",
+			"revision": "ce1b59bb819416ca67422929b1cb48bb342720b6",
+			"revisionTime": "2016-03-21T21:09:30Z"
+		},
+		{
+			"checksumSHA1": "xzGjMJ5pt3OO1owmY/HxS0hcJIA=",
+			"path": "github.com/mattes/migrate/migrate/direction",
+			"revision": "ce1b59bb819416ca67422929b1cb48bb342720b6",
+			"revisionTime": "2016-03-21T21:09:30Z"
+		},
+		{
+			"checksumSHA1": "A5Z+yotZkv56n0eUX0kAv0/Sj4I=",
+			"path": "github.com/mattes/migrate/pipe",
+			"revision": "ce1b59bb819416ca67422929b1cb48bb342720b6",
+			"revisionTime": "2016-03-21T21:09:30Z"
 		},
 		{
 			"checksumSHA1": "I4njd26dG5hxFT2nawuByM4pxzY=",
