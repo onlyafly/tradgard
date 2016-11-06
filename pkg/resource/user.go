@@ -25,3 +25,9 @@ func (r *UserResource) PostLogInDo(c echo.Context) error {
 	}
 	return c.Redirect(http.StatusSeeOther, "/")
 }
+
+// GetLogOutDo logs out the user
+func (r *UserResource) GetLogOutDo(c echo.Context) error {
+	r.AuthService.ClearCookie(c)
+	return c.Redirect(http.StatusSeeOther, "/")
+}

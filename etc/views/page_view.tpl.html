@@ -1,5 +1,7 @@
 {{define "page_view"}}
+{{template "partial_header" .}}
 <a href="/page/{{.PageID}}/edit">Edit</a>
 <br>
 {{ .Content }}
+{{template "partial_footer" .}}
 {{end}}

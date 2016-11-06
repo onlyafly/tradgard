@@ -91,7 +91,7 @@ func Start(config Config) {
 	// Routes
 
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
+		return c.Render(http.StatusOK, "home", nil)
 	})
 
 	e.GET("/test", func(c echo.Context) error {
@@ -106,6 +106,7 @@ func Start(config Config) {
 
 	e.GET("/login", userResource.ViewLogIn)
 	e.POST("/login/do", userResource.PostLogInDo)
+	e.GET("/logout", userResource.GetLogOutDo)
 
 	e.GET("/name/:name", func(c echo.Context) error {
 		name := c.Param("name")

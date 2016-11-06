@@ -1,4 +1,5 @@
 {{define "page_edit"}}
+{{template "partial_header" .}}
 <form action="/page/{{.PageID}}/save" method="post">
     <div>
         <label for="content">Content:</label>
@@ -9,4 +10,5 @@
         <button type="submit">Save</button>
     </div>
 </form>
+{{template "partial_footer" .}}
 {{end}}

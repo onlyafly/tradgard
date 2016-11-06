@@ -16,28 +16,17 @@ type AuthService struct {
 
 // StoreUsernameInCookie stores the username in the cookie
 func (s *AuthService) StoreUsernameInCookie(c echo.Context, username string) error {
-	fmt.Println("[DEBUG] Storing cookie 111: username:", username)
-
 	cookie := new(echo.Cookie)
 	cookie.SetName(s.CookieName)
-
-	fmt.Println("[DEBUG] 222")
 
 	decodedCookie := map[string]string{
 		"username": username,
 	}
 
-	fmt.Println("[DEBUG] 333")
-
 	encodedCookieString, err := s.encodeCookie(decodedCookie)
-
-	fmt.Println("[DEBUG] 444")
-
 	if err != nil {
 		return err
 	}
-
-	fmt.Println("[DEBUG] 555")
 
 	cookie.SetValue(encodedCookieString)
 	cookie.SetExpires(time.Now().Add(24 * time.Hour))
@@ -46,6 +35,20 @@ func (s *AuthService) StoreUsernameInCookie(c echo.Context, username string) err
 	c.SetCookie(cookie)
 
 	fmt.Println("[DEBUG] Storing cookie:", cookie)
+
+	return nil
+}
+
+// ClearCookie erases the cookie
+func (s *AuthService) ClearCookie(c echo.Context) error {
+	cookie := new(echo.Cookie)
+	cookie.SetName(s.CookieName)
+	cookie.SetValue("")
+	cookie.SetExpires(time.Now())
+	cookie.SetPath("/")
+	c.SetCookie(cookie)
+
+	fmt.Println("[DEBUG] Clearing cookie:", cookie)
 
 	return nil
 }
