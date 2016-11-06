@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/gommon/color"
@@ -14,8 +13,7 @@ func printError(err error, c echo.Context) {
 	colorable := color.New()
 
 	s := fmt.Sprintf(
-		"%s %s %s (status=%d): [ERROR] %s\n",
-		time.Now().Format(time.RFC3339),
+		"%s %s (status=%d): [ERROR] %s\n",
 		c.Request().Method(),
 		c.Request().URL().Path(),
 		c.Response().Status(),

@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"strconv"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/engine/standard"
 	echoMiddleware "github.com/labstack/echo/middleware"
 	"github.com/onlyafly/tradgard/pkg/middleware"
+	"github.com/onlyafly/tradgard/pkg/resource"
 	"github.com/onlyafly/tradgard/pkg/service"
 	"github.com/russross/blackfriday"
 )
@@ -38,7 +38,7 @@ func Start(config Config) {
 
 	e.Use(echoMiddleware.Recover())
 	e.Use(echoMiddleware.LoggerWithConfig(echoMiddleware.LoggerConfig{
-		Format: "${time_rfc3339} ${method} ${uri} (status=${status})\n",
+		Format: "${method} ${uri} (status=${status})\n",
 	}))
 
 	r := &middleware.HTMLTemplateRenderer{
@@ -52,6 +52,12 @@ func Start(config Config) {
 		DB: config.Database,
 	}
 
+	// Resources
+
+	pageResource := &resource.PageResource{
+		PageService: pageService,
+	}
+
 	// Routes
 
 	e.GET("/", func(c echo.Context) error {
@@ -63,6 +69,8 @@ func Start(config Config) {
 		output := blackfriday.MarkdownCommon([]byte(markdownContent))
 		return c.HTML(http.StatusOK, string(output))
 	})
+
+	e.GET("/page/id/:id", pageResource.GetByID)
 
 	e.GET("/page/:name", func(c echo.Context) error {
 		name := c.Param("name")
@@ -80,40 +88,11 @@ func Start(config Config) {
 		return c.Render(http.StatusOK, "hello", data)
 	})
 
-	e.GET("/page/id/:id", func(c echo.Context) error {
-		idString := c.Param("id")
-
-		id, err := strconv.ParseInt(idString, 10, 64)
-		if err != nil {
-			return err
-		}
-
-		p, err := pageService.Get(id)
-		if err != nil {
-			return err
-		} else if p == nil {
-			return echo.NewHTTPError(http.StatusNotFound, "page not found")
-		}
-
-		htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
-
-		data := struct {
-			DudeName string
-			Content  template.HTML
-		}{
-			idString,
-			template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
-		}
-
-		return c.Render(http.StatusOK, "hello", data)
-	})
-
 	e.Static("/", "static")
 
-	fmt.Println("Tradgard starting on port " + config.Port + "!")
+	fmt.Println("[INFO] Server starting on port " + config.Port + "!")
 
 	if err := e.Run(standard.New(":" + config.Port)); err != nil {
-		fmt.Println("Error starting server", err)
+		fmt.Println("[FATAL] Error starting server", err)
 	}
-
 }
