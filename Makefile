@@ -2,7 +2,7 @@ all: build
 	heroku local
 
 build:
-	go build -race ./cmd/tradgard ./...
+	go install -race ./cmd/tradgard ./...
 
 deps:
 	go get -u github.com/kardianos/govendor

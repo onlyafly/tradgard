@@ -71,7 +71,7 @@ func Start() {
 	e.Static("/static", "static")
 
 	port := getEnvOr("PORT", defaultPort)
-	fmt.Println("Tradgard starting on port " + port)
+	fmt.Println("Tradgard starting on port " + port + "!")
 	e.Run(standard.New(":" + port))
 }
 

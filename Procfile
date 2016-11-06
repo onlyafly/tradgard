@@ -1,1 +1,1 @@
-web: ./tradgard
+web: tradgard
