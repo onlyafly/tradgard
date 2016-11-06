@@ -1,27 +1,97 @@
 {
-    "comment": "",
-    "ignore": "test",
-    "heroku": {
-        "goVersion": "go1.7",
-        "install": [
-            "./cmd/..."
-        ]
-    },
-    "package": [{
-        "checksumSHA1": "pJBSQjwuY6WO7o6MCmC+kwLO2IM=",
-        "path": "github.com/labstack/echo",
-        "revision": "c5efa294c90d14d43f78a13aad34eb1c70e368bf",
-        "revisionTime": "2016-11-05T19:08:32Z"
-    }, {
-        "checksumSHA1": "LW6AaspQoMJfHGdzevCARW/luG4=",
-        "path": "github.com/labstack/echo/engine/standard",
-        "revision": "c5efa294c90d14d43f78a13aad34eb1c70e368bf",
-        "revisionTime": "2016-11-05T19:08:32Z"
-    }, {
-        "checksumSHA1": "c7jHQZk5ZEsFR9EXsWJXkszPBZA=",
-        "path": "github.com/russross/blackfriday",
-        "revision": "5f33e7b7878355cd2b7e6b8eefc48a5472c69f70",
-        "revisionTime": "2016-10-03T16:27:22Z"
-    }],
-    "rootPath": "github.com/onlyafly/tradgard"
+	"comment": "",
+	"heroku": {
+		"goVersion": "go1.7",
+		"install": [
+			"./cmd/..."
+		]
+	},
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "pJBSQjwuY6WO7o6MCmC+kwLO2IM=",
+			"path": "github.com/labstack/echo",
+			"revision": "2fc0d3d3f381f9c1d19347d68485ffb47186f9af",
+			"revisionTime": "2016-11-05T19:08:32Z"
+		},
+		{
+			"checksumSHA1": "arbpSvi1eBUSuSaEZap+osiG+P8=",
+			"path": "github.com/labstack/echo/context",
+			"revision": "2fc0d3d3f381f9c1d19347d68485ffb47186f9af",
+			"revisionTime": "2016-11-05T19:08:32Z"
+		},
+		{
+			"checksumSHA1": "ag5fKA9XYSXX34ysbQrO9OUF6qM=",
+			"path": "github.com/labstack/echo/engine",
+			"revision": "2fc0d3d3f381f9c1d19347d68485ffb47186f9af",
+			"revisionTime": "2016-11-05T19:08:32Z"
+		},
+		{
+			"checksumSHA1": "LW6AaspQoMJfHGdzevCARW/luG4=",
+			"path": "github.com/labstack/echo/engine/standard",
+			"revision": "2fc0d3d3f381f9c1d19347d68485ffb47186f9af",
+			"revisionTime": "2016-11-05T19:08:32Z"
+		},
+		{
+			"checksumSHA1": "iDCjk9XfJyeiobpsw3E1UXXde/0=",
+			"path": "github.com/labstack/echo/log",
+			"revision": "2fc0d3d3f381f9c1d19347d68485ffb47186f9af",
+			"revisionTime": "2016-11-05T19:08:32Z"
+		},
+		{
+			"checksumSHA1": "R6DzcBLEP0BONPpsyr+11N7xh5w=",
+			"path": "github.com/labstack/gommon/color",
+			"revision": "2d272df536d051e737aea353b86c979d6e88bce0",
+			"revisionTime": "2016-10-23T20:04:48Z"
+		},
+		{
+			"checksumSHA1": "E/VxZG1doV3Nf5jUygXtru2vP6g=",
+			"path": "github.com/labstack/gommon/log",
+			"revision": "2d272df536d051e737aea353b86c979d6e88bce0",
+			"revisionTime": "2016-10-23T20:04:48Z"
+		},
+		{
+			"checksumSHA1": "I4njd26dG5hxFT2nawuByM4pxzY=",
+			"path": "github.com/mattn/go-colorable",
+			"revision": "d228849504861217f796da67fae4f6e347643f15",
+			"revisionTime": "2016-11-03T16:00:40Z"
+		},
+		{
+			"checksumSHA1": "xZuhljnmBysJPta/lMyYmJdujCg=",
+			"path": "github.com/mattn/go-isatty",
+			"revision": "66b8e73f3f5cda9f96b69efd03dd3d7fc4a5cdb8",
+			"revisionTime": "2016-08-06T12:27:52Z"
+		},
+		{
+			"checksumSHA1": "c7jHQZk5ZEsFR9EXsWJXkszPBZA=",
+			"path": "github.com/russross/blackfriday",
+			"revision": "5f33e7b7878355cd2b7e6b8eefc48a5472c69f70",
+			"revisionTime": "2016-10-03T16:27:22Z"
+		},
+		{
+			"checksumSHA1": "kbgJvKG3NRoqU91rYnXGnyR+8HQ=",
+			"path": "github.com/shurcooL/sanitized_anchor_name",
+			"revision": "1dba4b3954bc059efc3991ec364f9f9a35f597d2",
+			"revisionTime": "2016-09-18T04:11:01Z"
+		},
+		{
+			"checksumSHA1": "PQy6kV2rK5B3qtCRpANzgRQPnFs=",
+			"path": "github.com/valyala/fasttemplate",
+			"revision": "3b874956e03f1636d171bda64b130f9135f42cff",
+			"revisionTime": "2016-03-15T19:31:34Z"
+		},
+		{
+			"checksumSHA1": "9jjO5GjLa0XF/nfWihF02RoH4qc=",
+			"path": "golang.org/x/net/context",
+			"revision": "55a3084c9119aeb9ba2437d595b0a7e9cb635da9",
+			"revisionTime": "2016-11-04T22:18:50Z"
+		},
+		{
+			"checksumSHA1": "aVgPDgwY3/t4J/JOw9H3FVMHqh0=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "c200b10b5d5e122be351b67af224adc6128af5bf",
+			"revisionTime": "2016-10-22T18:22:21Z"
+		}
+	],
+	"rootPath": "github.com/onlyafly/tradgard"
 }
