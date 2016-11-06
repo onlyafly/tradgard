@@ -14,6 +14,7 @@ import (
 // PageResource represents a page resource
 type PageResource struct {
 	PageService *service.PageService
+	AuthService *service.AuthService
 }
 
 // View shows a page
@@ -26,10 +27,10 @@ func (r *PageResource) View(c echo.Context) error {
 	htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
 
 	data := struct {
-		DudeName string
-		Content  template.HTML
+		PageID  int64
+		Content template.HTML
 	}{
-		"dude",
+		p.ID,
 		template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
 	}
 
@@ -38,6 +39,10 @@ func (r *PageResource) View(c echo.Context) error {
 
 // ViewEdit shows the editor for a page
 func (r *PageResource) ViewEdit(c echo.Context) error {
+	if !r.AuthService.IsAuthenticated(c) {
+		return c.String(http.StatusUnauthorized, "not authorized")
+	}
+
 	p, err := r.fetchPageFromParam(c, "id")
 	if err != nil {
 		return err

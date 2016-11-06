@@ -15,6 +15,12 @@
 			"revisionTime": "2016-11-01T19:39:35Z"
 		},
 		{
+			"checksumSHA1": "veX5bpYOBjZZWMyWxXxys8EH9d8=",
+			"path": "github.com/gorilla/securecookie",
+			"revision": "fa5329f913702981df43dcb2a380bac429c810b5",
+			"revisionTime": "2016-10-03T05:16:01Z"
+		},
+		{
 			"checksumSHA1": "p/qzxBRYGQTr4JKDAN8JxtSv5iU=",
 			"path": "github.com/jmoiron/sqlx",
 			"revision": "5f97679e23f75f42b265fec8d3bdb1c8de90b79d",

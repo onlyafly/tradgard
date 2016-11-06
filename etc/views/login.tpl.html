@@ -1,0 +1,12 @@
+{{define "login"}}
+<form action="/login/do" method="post">
+    <div>
+        <label for="username">Username:</label>
+        <textarea id="username" name="username"></textarea>
+    </div>
+
+    <div class="button">
+        <button type="submit">Log In</button>
+    </div>
+</form>
+{{end}}

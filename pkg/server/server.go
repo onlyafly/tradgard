@@ -10,11 +10,14 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/engine/standard"
 	echoMiddleware "github.com/labstack/echo/middleware"
+	"github.com/onlyafly/tradgard/pkg/extension"
 	"github.com/onlyafly/tradgard/pkg/middleware"
 	"github.com/onlyafly/tradgard/pkg/resource"
 	"github.com/onlyafly/tradgard/pkg/service"
 	"github.com/russross/blackfriday"
 )
+
+const cookieName = "tradgard-cookie"
 
 // Config is the config for starting the server
 type Config struct {
@@ -37,6 +40,20 @@ func Start(config Config) {
 	e.SetDebug(false)
 	e.SetHTTPErrorHandler(middleware.CustomHTTPErrorHandler)
 
+	/*
+		e.Use(echoMiddleware.BasicAuthWithConfig(echoMiddleware.BasicAuthConfig{
+			Skipper: func(c echo.Context) bool {
+				if
+			},
+			Validator: func(username, password string) bool {
+				if username == "joe" && password == "secret" {
+					return true
+				}
+				return false
+			},
+		}))
+	*/
+
 	e.Use(echoMiddleware.Recover())
 	e.Use(echoMiddleware.LoggerWithConfig(echoMiddleware.LoggerConfig{
 		Format: "${method} ${uri} (status=${status})\n",
@@ -52,11 +69,23 @@ func Start(config Config) {
 	pageService := &service.PageService{
 		DB: config.Database,
 	}
+	authService := &service.AuthService{
+		CookieName:   cookieName,
+		SecureCookie: extension.NewSecureCookie(),
+	}
+
+	// Service-Dependent Middleware
+
+	e.Use(middleware.CookieBasedAuthentication(authService))
 
 	// Resources
 
 	pageResource := &resource.PageResource{
 		PageService: pageService,
+		AuthService: authService,
+	}
+	userResource := &resource.UserResource{
+		AuthService: authService,
 	}
 
 	// Routes
@@ -74,6 +103,9 @@ func Start(config Config) {
 	e.GET("/page/:id", pageResource.View)
 	e.GET("/page/:id/edit", pageResource.ViewEdit)
 	e.POST("/page/:id/save", pageResource.PostSave)
+
+	e.GET("/login", userResource.ViewLogIn)
+	e.POST("/login/do", userResource.PostLogInDo)
 
 	e.GET("/name/:name", func(c echo.Context) error {
 		name := c.Param("name")
