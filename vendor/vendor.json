@@ -1,25 +1,27 @@
 {
-	"comment": "",
-	"ignore": "test",
-	"package": [
-		{
-			"checksumSHA1": "pJBSQjwuY6WO7o6MCmC+kwLO2IM=",
-			"path": "github.com/labstack/echo",
-			"revision": "c5efa294c90d14d43f78a13aad34eb1c70e368bf",
-			"revisionTime": "2016-11-05T19:08:32Z"
-		},
-		{
-			"checksumSHA1": "LW6AaspQoMJfHGdzevCARW/luG4=",
-			"path": "github.com/labstack/echo/engine/standard",
-			"revision": "c5efa294c90d14d43f78a13aad34eb1c70e368bf",
-			"revisionTime": "2016-11-05T19:08:32Z"
-		},
-		{
-			"checksumSHA1": "c7jHQZk5ZEsFR9EXsWJXkszPBZA=",
-			"path": "github.com/russross/blackfriday",
-			"revision": "5f33e7b7878355cd2b7e6b8eefc48a5472c69f70",
-			"revisionTime": "2016-10-03T16:27:22Z"
-		}
-	],
-	"rootPath": "github.com/onlyafly/tradgard"
+    "comment": "",
+    "ignore": "test",
+    "heroku": {
+        "goVersion": "go1.7",
+        "install": [
+            "./cmd/..."
+        ]
+    },
+    "package": [{
+        "checksumSHA1": "pJBSQjwuY6WO7o6MCmC+kwLO2IM=",
+        "path": "github.com/labstack/echo",
+        "revision": "c5efa294c90d14d43f78a13aad34eb1c70e368bf",
+        "revisionTime": "2016-11-05T19:08:32Z"
+    }, {
+        "checksumSHA1": "LW6AaspQoMJfHGdzevCARW/luG4=",
+        "path": "github.com/labstack/echo/engine/standard",
+        "revision": "c5efa294c90d14d43f78a13aad34eb1c70e368bf",
+        "revisionTime": "2016-11-05T19:08:32Z"
+    }, {
+        "checksumSHA1": "c7jHQZk5ZEsFR9EXsWJXkszPBZA=",
+        "path": "github.com/russross/blackfriday",
+        "revision": "5f33e7b7878355cd2b7e6b8eefc48a5472c69f70",
+        "revisionTime": "2016-10-03T16:27:22Z"
+    }],
+    "rootPath": "github.com/onlyafly/tradgard"
 }
