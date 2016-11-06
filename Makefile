@@ -1,8 +1,11 @@
-all:
-	go run cmd/tradgard/main.go
+all: build
+	heroku local
+
+build:
+	go build -race ./cmd/tradgard ./...
 
 deps:
 	go get -u github.com/kardianos/govendor
 	govendor sync
 
-.PHONY: all deps
+.PHONY: all build deps

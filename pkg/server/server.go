@@ -56,13 +56,22 @@ func Start() {
 		name := c.Param("name")
 		input := fmt.Sprintf("Hi, **%s**!", name)
 		output := blackfriday.MarkdownCommon([]byte(input))
-		return c.Render(http.StatusOK, "test", output)
+
+		data := struct {
+			DudeName string
+			Content  template.HTML
+		}{
+			name,
+			template.HTML(string(output)), // convert the string to HTML so that html/templates knows it can be trusted
+		}
+
+		return c.Render(http.StatusOK, "hello", data)
 	})
 
 	e.Static("/static", "static")
 
 	port := getEnvOr("PORT", defaultPort)
-	fmt.Println("Starting on port " + port)
+	fmt.Println("Tradgard starting on port " + port)
 	e.Run(standard.New(":" + port))
 }
 
