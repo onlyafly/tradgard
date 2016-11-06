@@ -19,7 +19,7 @@ const (
 func main() {
 	defer func() {
 		if r := recover(); r != nil {
-			fmt.Println("[FATAL] Panic recovered in main", r)
+			fmt.Fprintln(os.Stderr, "[FATAL] Panic recovered in main", r)
 		}
 	}()
 
@@ -27,21 +27,21 @@ func main() {
 	dbURLStr := os.Getenv("DATABASE_URL")
 	dbURL, err := url.Parse(dbURLStr)
 	if err != nil {
-		fmt.Println("[FATAL] Failed to parse envvar DATABASE_URL", dbURLStr, err)
+		fmt.Fprintln(os.Stderr, "[FATAL] Failed to parse envvar DATABASE_URL", dbURLStr, err)
 		return
 	}
 
 	fmt.Println("[INFO] Connecting to DB", dbURL.Host)
 	db, err := connect(*dbURL)
 	if err != nil {
-		fmt.Println("[FATAL] Failed to connect to DB", err)
+		fmt.Fprintln(os.Stderr, "[FATAL] Failed to connect to DB", err)
 		return
 	}
 	defer db.Close()
 
 	fmt.Println("[INFO] Migrating DB", dbURL.Host)
 	if err = migrateDB(dbURL, "./etc/db/"); err != nil {
-		fmt.Println("[FATAL] Failed to migrate DB", err)
+		fmt.Fprintln(os.Stderr, "[FATAL] Failed to migrate DB", err)
 		return
 	}
 

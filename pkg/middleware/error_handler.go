@@ -13,7 +13,7 @@ func printError(err error, c echo.Context) {
 	colorable := color.New()
 
 	s := fmt.Sprintf(
-		"%s %s (status=%d): [ERROR] %s\n",
+		"[ERROR] %s %s (%d): %s\n",
 		c.Request().Method(),
 		c.Request().URL().Path(),
 		c.Response().Status(),

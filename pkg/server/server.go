@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
@@ -70,9 +71,10 @@ func Start(config Config) {
 		return c.HTML(http.StatusOK, string(output))
 	})
 
-	e.GET("/page/id/:id", pageResource.GetByID)
+	e.GET("/page/:id", pageResource.View)
+	e.GET("/page/:id/edit", pageResource.ViewEdit)
 
-	e.GET("/page/:name", func(c echo.Context) error {
+	e.GET("/name/:name", func(c echo.Context) error {
 		name := c.Param("name")
 		markdownContent := fmt.Sprintf("Hi, **%s**!", name)
 		output := blackfriday.MarkdownCommon([]byte(markdownContent))
@@ -93,6 +95,6 @@ func Start(config Config) {
 	fmt.Println("[INFO] Server starting on port " + config.Port + "!")
 
 	if err := e.Run(standard.New(":" + config.Port)); err != nil {
-		fmt.Println("[FATAL] Error starting server", err)
+		fmt.Fprintln(os.Stderr, "[FATAL] Error starting server", err)
 	}
 }

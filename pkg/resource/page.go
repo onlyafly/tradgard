@@ -15,20 +15,11 @@ type PageResource struct {
 	PageService *service.PageService
 }
 
-// GetByID returns a page
-func (r *PageResource) GetByID(c echo.Context) error {
-	idString := c.Param("id")
-
-	id, err := strconv.ParseInt(idString, 10, 64)
+// View shows a page
+func (r *PageResource) View(c echo.Context) error {
+	p, err := r.fetchPageFromParam(c, "id")
 	if err != nil {
 		return err
-	}
-
-	p, err := r.PageService.Get(id)
-	if err != nil {
-		return err
-	} else if p == nil {
-		return echo.NewHTTPError(http.StatusNotFound, "page not found")
 	}
 
 	htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
@@ -37,9 +28,42 @@ func (r *PageResource) GetByID(c echo.Context) error {
 		DudeName string
 		Content  template.HTML
 	}{
-		idString,
+		"dude",
 		template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
 	}
 
-	return c.Render(http.StatusOK, "hello", data)
+	return c.Render(http.StatusOK, "page_view", data)
+}
+
+// ViewEdit shows the editor for a page
+func (r *PageResource) ViewEdit(c echo.Context) error {
+	p, err := r.fetchPageFromParam(c, "id")
+	if err != nil {
+		return err
+	}
+
+	data := struct {
+		MarkdownContent string
+	}{
+		p.Content,
+	}
+
+	return c.Render(http.StatusOK, "page_edit", data)
+}
+
+func (r *PageResource) fetchPageFromParam(c echo.Context, idParam string) (*service.PageModel, error) {
+	idString := c.Param(idParam)
+	id, err := strconv.ParseInt(idString, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	p, err := r.PageService.Get(id)
+	if err != nil {
+		return nil, err
+	} else if p == nil {
+		return nil, echo.NewHTTPError(http.StatusNotFound, "page not found")
+	}
+
+	return p, nil
 }
