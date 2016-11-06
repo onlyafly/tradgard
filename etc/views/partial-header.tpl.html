@@ -6,7 +6,7 @@
 </head>
 <body>
   <section>
-    Links: <a href="/login">Log In</a> | <a href="/logout">Log Out</a> | (Logged in as: {{.Username}})
+    Links: <a href="/login">Log In</a> | <a href="/logout">Log Out</a> | (Logged in as: {{.Context.Get "username"}})
   </section>
   <hr>
   <section>

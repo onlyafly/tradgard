@@ -29,9 +29,11 @@ func (r *PageResource) View(c echo.Context) error {
 	data := struct {
 		PageID  int64
 		Content template.HTML
+		Context echo.Context
 	}{
 		p.ID,
 		template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
+		c,
 	}
 
 	return c.Render(http.StatusOK, "page_view", data)
@@ -51,9 +53,11 @@ func (r *PageResource) ViewEdit(c echo.Context) error {
 	data := struct {
 		PageID          int64
 		MarkdownContent string
+		Context         echo.Context
 	}{
 		p.ID,
 		p.Content,
+		c,
 	}
 
 	return c.Render(http.StatusOK, "page_edit", data)

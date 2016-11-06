@@ -34,7 +34,7 @@ func (s *AuthService) StoreUsernameInCookie(c echo.Context, username string) err
 
 	c.SetCookie(cookie)
 
-	fmt.Println("[DEBUG] Storing cookie:", cookie)
+	fmt.Println("[DEBUG] Storing cookie:", decodedCookie)
 
 	return nil
 }
@@ -48,7 +48,7 @@ func (s *AuthService) ClearCookie(c echo.Context) error {
 	cookie.SetPath("/")
 	c.SetCookie(cookie)
 
-	fmt.Println("[DEBUG] Clearing cookie:", cookie)
+	fmt.Println("[DEBUG] Clearing cookie")
 
 	return nil
 }
@@ -57,7 +57,7 @@ func (s *AuthService) ClearCookie(c echo.Context) error {
 func (s *AuthService) ExtractDataFromCookie(c echo.Context) error {
 	cookie, err := c.Cookie(s.CookieName)
 	if err != nil {
-		fmt.Println("[DEBUG] Cookie not found called:", s.CookieName)
+		fmt.Println("[DEBUG] No cookie session")
 	} else {
 		encodedCookieString := cookie.Value()
 		decodedCookie, err := s.decodeCookie(encodedCookieString)
@@ -65,6 +65,7 @@ func (s *AuthService) ExtractDataFromCookie(c echo.Context) error {
 			return err
 		}
 
+		fmt.Println("[DEBUG] Data found in cookie session:", decodedCookie)
 		c.Set("username", decodedCookie["username"])
 	}
 	return nil

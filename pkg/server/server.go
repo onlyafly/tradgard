@@ -14,7 +14,6 @@ import (
 	"github.com/onlyafly/tradgard/pkg/middleware"
 	"github.com/onlyafly/tradgard/pkg/resource"
 	"github.com/onlyafly/tradgard/pkg/service"
-	"github.com/russross/blackfriday"
 )
 
 const cookieName = "tradgard-cookie"
@@ -91,13 +90,12 @@ func Start(config Config) {
 	// Routes
 
 	e.GET("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "home", nil)
-	})
-
-	e.GET("/test", func(c echo.Context) error {
-		markdownContent := "**Hi**"
-		output := blackfriday.MarkdownCommon([]byte(markdownContent))
-		return c.HTML(http.StatusOK, string(output))
+		data := struct {
+			Context echo.Context
+		}{
+			c,
+		}
+		return c.Render(http.StatusOK, "home", data)
 	})
 
 	e.GET("/page/:id", pageResource.View)
@@ -108,23 +106,11 @@ func Start(config Config) {
 	e.POST("/login/do", userResource.PostLogInDo)
 	e.GET("/logout", userResource.GetLogOutDo)
 
-	e.GET("/name/:name", func(c echo.Context) error {
-		name := c.Param("name")
-		markdownContent := fmt.Sprintf("Hi, **%s**!", name)
-		output := blackfriday.MarkdownCommon([]byte(markdownContent))
-
-		data := struct {
-			DudeName string
-			Content  template.HTML
-		}{
-			name,
-			template.HTML(string(output)), // convert the string to HTML so that html/templates knows it can be trusted
-		}
-
-		return c.Render(http.StatusOK, "hello", data)
-	})
+	// Static
 
 	e.Static("/", "static")
+
+	// Start the server
 
 	fmt.Println("[INFO] Server starting on port " + config.Port + "!")
 

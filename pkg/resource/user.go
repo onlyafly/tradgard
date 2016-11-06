@@ -14,7 +14,13 @@ type UserResource struct {
 
 // ViewLogIn shows the Log In page
 func (r *UserResource) ViewLogIn(c echo.Context) error {
-	return c.Render(http.StatusOK, "login", nil)
+	data := struct {
+		Context echo.Context
+	}{
+		c,
+	}
+
+	return c.Render(http.StatusOK, "login", data)
 }
 
 // PostLogInDo logs in the user
