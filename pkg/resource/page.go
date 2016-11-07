@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"net/url"
 	"strconv"
 
 	"github.com/labstack/echo"
@@ -19,7 +20,12 @@ type PageResource struct {
 
 // ViewByName shows a page given its name
 func (r *PageResource) ViewByName(c echo.Context) error {
-	p, err := r.fetchPageFromName(c.Param("name"))
+	unescapedName, err := url.QueryUnescape(c.Param("name"))
+	if err != nil {
+		return nil
+	}
+
+	p, err := r.fetchPageFromName(unescapedName)
 	if err != nil {
 		return err
 	}
@@ -27,14 +33,16 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 	htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
 
 	data := struct {
-		PageID      int64
-		PageName    string
-		PageContent template.HTML
-		Context     echo.Context
+		PageID       int64
+		PageName     string
+		PageContent  template.HTML
+		EditPagePath string
+		Context      echo.Context
 	}{
 		p.ID,
 		p.Name,
 		template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
+		createEditPagePath(p),
 		c,
 	}
 
@@ -47,20 +55,27 @@ func (r *PageResource) ViewEditByName(c echo.Context) error {
 		return c.String(http.StatusUnauthorized, "not authorized")
 	}
 
-	p, err := r.fetchPageFromName(c.Param("name"))
+	unescapedName, err := url.QueryUnescape(c.Param("name"))
+	if err != nil {
+		return nil
+	}
+
+	p, err := r.fetchPageFromName(unescapedName)
 	if err != nil {
 		return err
 	}
 
 	data := struct {
-		PageID      int64
-		PageName    string
-		PageContent string
-		Context     echo.Context
+		PageID       int64
+		PageName     string
+		PageContent  string
+		SavePagePath string
+		Context      echo.Context
 	}{
 		p.ID,
 		p.Name,
 		p.Content,
+		createSavePagePath(p),
 		c,
 	}
 
@@ -77,14 +92,16 @@ func (r *PageResource) ViewByID(c echo.Context) error {
 	htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
 
 	data := struct {
-		PageID      int64
-		PageName    string
-		PageContent template.HTML
-		Context     echo.Context
+		PageID       int64
+		PageName     string
+		PageContent  template.HTML
+		EditPagePath string
+		Context      echo.Context
 	}{
 		p.ID,
 		p.Name,
 		template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
+		createEditPagePath(p),
 		c,
 	}
 
@@ -103,14 +120,16 @@ func (r *PageResource) ViewEditByID(c echo.Context) error {
 	}
 
 	data := struct {
-		PageID      int64
-		PageName    string
-		PageContent string
-		Context     echo.Context
+		PageID       int64
+		PageName     string
+		PageContent  string
+		SavePagePath string
+		Context      echo.Context
 	}{
 		p.ID,
 		p.Name,
 		p.Content,
+		createSavePagePath(p),
 		c,
 	}
 
@@ -131,7 +150,19 @@ func (r *PageResource) PostSaveByID(c echo.Context) error {
 		return err
 	}
 
-	return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/page/%s", p.Name))
+	return c.Redirect(http.StatusSeeOther, createViewPagePath(p))
+}
+
+func createViewPagePath(p *service.PageModel) string {
+	return fmt.Sprintf("/page/%s", url.QueryEscape(p.Name))
+}
+
+func createEditPagePath(p *service.PageModel) string {
+	return fmt.Sprintf("/page/%s/edit", url.QueryEscape(p.Name))
+}
+
+func createSavePagePath(p *service.PageModel) string {
+	return fmt.Sprintf("/page/id/%d/save", p.ID)
 }
 
 func (r *PageResource) fetchPageFromIDString(idString string) (*service.PageModel, error) {
