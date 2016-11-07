@@ -99,10 +99,11 @@ func Start(config Config) {
 	})
 
 	e.GET("/page/:name", pageResource.ViewByName)
+	e.GET("/page/:name/edit", pageResource.ViewEditByName)
 
-	e.GET("/pageid/:id", pageResource.ViewByID)
-	e.GET("/pageid/:id/edit", pageResource.ViewEditByID)
-	e.POST("/pageid/:id/save", pageResource.PostSaveByID)
+	e.GET("/page/id/:id", pageResource.ViewByID)
+	e.GET("/page/id/:id/edit", pageResource.ViewEditByID)
+	e.POST("/page/id/:id/save", pageResource.PostSaveByID)
 
 	e.GET("/login", userResource.ViewLogIn)
 	e.POST("/login/do", userResource.PostLogInDo)

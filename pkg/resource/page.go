@@ -41,6 +41,32 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 	return c.Render(http.StatusOK, "page_view", data)
 }
 
+// ViewEditByName shows the editor for a page
+func (r *PageResource) ViewEditByName(c echo.Context) error {
+	if !r.AuthService.IsAuthenticated(c) {
+		return c.String(http.StatusUnauthorized, "not authorized")
+	}
+
+	p, err := r.fetchPageFromName(c.Param("name"))
+	if err != nil {
+		return err
+	}
+
+	data := struct {
+		PageID      int64
+		PageName    string
+		PageContent string
+		Context     echo.Context
+	}{
+		p.ID,
+		p.Name,
+		p.Content,
+		c,
+	}
+
+	return c.Render(http.StatusOK, "page_edit", data)
+}
+
 // ViewByID shows a page
 func (r *PageResource) ViewByID(c echo.Context) error {
 	p, err := r.fetchPageFromIDString(c.Param("id"))
@@ -105,7 +131,7 @@ func (r *PageResource) PostSaveByID(c echo.Context) error {
 		return err
 	}
 
-	return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/pageid/%d", p.ID))
+	return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/page/%s", p.Name))
 }
 
 func (r *PageResource) fetchPageFromIDString(idString string) (*service.PageModel, error) {
