@@ -36,6 +36,24 @@ func (s *PageService) Get(key int64) (*PageModel, error) {
 	}
 }
 
+// GetByName gets one page by name
+func (s *PageService) GetByName(name string) (*PageModel, error) {
+	stmt := `SELECT *
+           FROM pages
+           WHERE name=$1
+           LIMIT 1`
+	p := &PageModel{}
+	err := s.DB.Get(p, stmt, name)
+	switch err {
+	case nil:
+		return p, nil
+	case sql.ErrNoRows:
+		return nil, nil
+	default:
+		return nil, err
+	}
+}
+
 // Update a page in the DB
 func (s *PageService) Update(p *PageModel) error {
 	stmt := `UPDATE pages

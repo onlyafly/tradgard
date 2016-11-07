@@ -98,9 +98,11 @@ func Start(config Config) {
 		return c.Render(http.StatusOK, "home", data)
 	})
 
-	e.GET("/page/:id", pageResource.View)
-	e.GET("/page/:id/edit", pageResource.ViewEdit)
-	e.POST("/page/:id/save", pageResource.PostSave)
+	e.GET("/page/:name", pageResource.ViewByName)
+
+	e.GET("/pageid/:id", pageResource.ViewByID)
+	e.GET("/pageid/:id/edit", pageResource.ViewEditByID)
+	e.POST("/pageid/:id/save", pageResource.PostSaveByID)
 
 	e.GET("/login", userResource.ViewLogIn)
 	e.POST("/login/do", userResource.PostLogInDo)

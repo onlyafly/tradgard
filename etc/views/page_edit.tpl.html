@@ -1,6 +1,6 @@
 {{define "page_edit"}}
 {{template "partial_header" .}}
-<form action="/page/{{.PageID}}/save" method="post">
+<form action="/pageid/{{.PageID}}/save" method="post">
     <div>
         <label for="name">Name:</label>
         <input type="text" id="name" name="page_name" value="{{.PageName}}">
