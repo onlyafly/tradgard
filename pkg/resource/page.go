@@ -25,9 +25,11 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 		return nil
 	}
 
-	p, err := r.fetchPageFromName(unescapedName)
+	p, err := r.PageService.GetByName(unescapedName)
 	if err != nil {
 		return err
+	} else if p == nil {
+		return echo.NewHTTPError(http.StatusNotFound, "Uh oh! There's no page with that name!")
 	}
 
 	htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
@@ -42,7 +44,7 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 		p.ID,
 		p.Name,
 		template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
-		createEditPagePath(p),
+		generateEditPagePath(p),
 		c,
 	}
 
@@ -60,23 +62,34 @@ func (r *PageResource) ViewEditByName(c echo.Context) error {
 		return nil
 	}
 
-	p, err := r.fetchPageFromName(unescapedName)
-	if err != nil {
-		return err
-	}
-
 	data := struct {
 		PageID       int64
 		PageName     string
 		PageContent  string
 		SavePagePath string
+		PageExists   bool
 		Context      echo.Context
 	}{
-		p.ID,
-		p.Name,
-		p.Content,
-		createSavePagePath(p),
-		c,
+		Context: c,
+	}
+
+	p, err := r.PageService.GetByName(unescapedName)
+	if err != nil {
+		return err
+	}
+
+	if p != nil {
+		data.PageID = p.ID
+		data.PageName = p.Name
+		data.PageContent = p.Content
+		data.SavePagePath = generateUpdatePagePath(p)
+		data.PageExists = true
+	} else {
+		data.PageID = -1
+		data.PageName = unescapedName
+		data.PageContent = ""
+		data.SavePagePath = generateCreatePagePath(p)
+		data.PageExists = false
 	}
 
 	return c.Render(http.StatusOK, "page_edit", data)
@@ -101,7 +114,7 @@ func (r *PageResource) ViewByID(c echo.Context) error {
 		p.ID,
 		p.Name,
 		template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
-		createEditPagePath(p),
+		generateEditPagePath(p),
 		c,
 	}
 
@@ -129,15 +142,15 @@ func (r *PageResource) ViewEditByID(c echo.Context) error {
 		p.ID,
 		p.Name,
 		p.Content,
-		createSavePagePath(p),
+		generateUpdatePagePath(p),
 		c,
 	}
 
 	return c.Render(http.StatusOK, "page_edit", data)
 }
 
-// PostSaveByID shows the editor for a page
-func (r *PageResource) PostSaveByID(c echo.Context) error {
+// ActionUpdateByID updates a page
+func (r *PageResource) ActionUpdateByID(c echo.Context) error {
 	p, err := r.fetchPageFromIDString(c.Param("id"))
 	if err != nil {
 		return err
@@ -150,19 +163,44 @@ func (r *PageResource) PostSaveByID(c echo.Context) error {
 		return err
 	}
 
-	return c.Redirect(http.StatusSeeOther, createViewPagePath(p))
+	return c.Redirect(http.StatusSeeOther, generateViewPagePath(p))
 }
 
-func createViewPagePath(p *service.PageModel) string {
+// ActionCreate creates a page
+func (r *PageResource) ActionCreate(c echo.Context) error {
+	pCreate := &service.PageModel{
+		Name:    c.FormValue("page_name"),
+		Content: c.FormValue("page_content"),
+	}
+
+	if err := r.PageService.Create(pCreate); err != nil {
+		return err
+	}
+
+	p, err := r.PageService.GetByName(pCreate.Name)
+	if err != nil {
+		return err
+	} else if p == nil {
+		return fmt.Errorf("Problem finding newly created page: '%s'", pCreate.Name)
+	}
+
+	return c.Redirect(http.StatusSeeOther, generateViewPagePath(p))
+}
+
+func generateViewPagePath(p *service.PageModel) string {
 	return fmt.Sprintf("/page/%s", url.QueryEscape(p.Name))
 }
 
-func createEditPagePath(p *service.PageModel) string {
+func generateEditPagePath(p *service.PageModel) string {
 	return fmt.Sprintf("/page/%s/edit", url.QueryEscape(p.Name))
 }
 
-func createSavePagePath(p *service.PageModel) string {
-	return fmt.Sprintf("/page/id/%d/save", p.ID)
+func generateUpdatePagePath(p *service.PageModel) string {
+	return fmt.Sprintf("/page/id/%d/actions/update", p.ID)
+}
+
+func generateCreatePagePath(p *service.PageModel) string {
+	return fmt.Sprintf("/page/actions/create")
 }
 
 func (r *PageResource) fetchPageFromIDString(idString string) (*service.PageModel, error) {
@@ -176,17 +214,6 @@ func (r *PageResource) fetchPageFromIDString(idString string) (*service.PageMode
 		return nil, err
 	} else if p == nil {
 		return nil, echo.NewHTTPError(http.StatusNotFound, "Uh oh! There's no page with that ID!")
-	}
-
-	return p, nil
-}
-
-func (r *PageResource) fetchPageFromName(name string) (*service.PageModel, error) {
-	p, err := r.PageService.GetByName(name)
-	if err != nil {
-		return nil, err
-	} else if p == nil {
-		return nil, echo.NewHTTPError(http.StatusNotFound, "Uh oh! There's no page with that name!")
 	}
 
 	return p, nil

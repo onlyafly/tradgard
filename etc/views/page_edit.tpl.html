@@ -11,7 +11,7 @@
     </div>
 
     <div class="button">
-        <button type="submit">Save</button>
+        <button type="submit">{{if .PageExists}}Save{{end}}{{if not .PageExists}}Create{{end}}</button>
     </div>
 </form>
 {{template "partial_footer" .}}

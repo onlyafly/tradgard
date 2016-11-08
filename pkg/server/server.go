@@ -103,7 +103,8 @@ func Start(config Config) {
 
 	e.GET("/page/id/:id", pageResource.ViewByID)
 	e.GET("/page/id/:id/edit", pageResource.ViewEditByID)
-	e.POST("/page/id/:id/save", pageResource.PostSaveByID)
+	e.POST("/page/id/:id/actions/update", pageResource.ActionUpdateByID)
+	e.POST("/page/actions/create", pageResource.ActionCreate)
 
 	e.GET("/login", userResource.ViewLogIn)
 	e.POST("/login/do", userResource.PostLogInDo)

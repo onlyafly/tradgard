@@ -64,3 +64,13 @@ func (s *PageService) Update(p *PageModel) error {
 	_, err := s.DB.NamedExec(stmt, p)
 	return err
 }
+
+// Create a page in the DB
+func (s *PageService) Create(p *PageModel) error {
+	stmt := `INSERT INTO pages
+					   (name, content)
+					 VALUES
+					   (:name, :content)`
+	_, err := s.DB.NamedExec(stmt, p)
+	return err
+}
