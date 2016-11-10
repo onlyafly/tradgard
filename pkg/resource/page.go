@@ -29,7 +29,7 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 	if err != nil {
 		return err
 	} else if p == nil {
-		return echo.NewHTTPError(http.StatusNotFound, "Uh oh! There's no page with that name!")
+		return echo.NewHTTPError(http.StatusNotFound, "No custom page with that name found!")
 	}
 
 	htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
@@ -54,7 +54,7 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 // ViewEditByName shows the editor for a page
 func (r *PageResource) ViewEditByName(c echo.Context) error {
 	if !r.AuthService.IsAuthenticated(c) {
-		return c.String(http.StatusUnauthorized, "not authorized")
+		return echo.NewHTTPError(http.StatusUnauthorized, "Need to be logged in to edit pages")
 	}
 
 	unescapedName, err := url.QueryUnescape(c.Param("name"))

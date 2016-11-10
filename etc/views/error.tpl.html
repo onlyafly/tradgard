@@ -1,0 +1,7 @@
+{{define "error"}}
+{{template "partial_header" .}}
+<section>
+  <b>{{.StatusCode}} {{.StatusMessage}}</b>
+</section>
+{{template "partial_footer" .}}
+{{end}}

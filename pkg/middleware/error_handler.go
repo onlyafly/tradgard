@@ -9,6 +9,20 @@ import (
 	"github.com/labstack/gommon/color"
 )
 
+func respondError(c echo.Context, statusCode int, statusMessage string) error {
+	data := struct {
+		Context       echo.Context
+		StatusCode    int
+		StatusMessage string
+	}{
+		c,
+		statusCode,
+		statusMessage,
+	}
+
+	return c.Render(statusCode, "error", data)
+}
+
 func printError(err error, c echo.Context) {
 	colorable := color.New()
 
@@ -32,14 +46,18 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 		code = he.Code
 		msg = he.Message
 	}
+
 	if c.Echo().Debug() {
 		msg = err.Error()
 	}
+
 	if !c.Response().Committed() {
 		if c.Request().Method() == "HEAD" { // Echo Issue #608
 			c.NoContent(code)
 		} else {
-			c.String(code, msg)
+			if errDuringResponse := respondError(c, code, msg); errDuringResponse != nil {
+				c.String(http.StatusInternalServerError, "How meta! Error rendering error response: "+errDuringResponse.Error())
+			}
 		}
 	}
 
