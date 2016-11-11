@@ -10,6 +10,11 @@
         <textarea id="content" name="page_content">{{.PageContent}}</textarea>
     </div>
 
+    <div>
+      <h2>Help</h2>
+      <a href="http://commonmark.org/help/">http://commonmark.org/help/</a>
+    </div>
+
     <div class="button">
         <button type="submit">{{if .PageExists}}Save{{end}}{{if not .PageExists}}Create{{end}}</button>
     </div>

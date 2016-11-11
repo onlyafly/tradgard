@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo"
+	"github.com/microcosm-cc/bluemonday"
 	"github.com/onlyafly/tradgard/pkg/service"
 	"github.com/russross/blackfriday"
 )
@@ -48,12 +49,16 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 		//return echo.NewHTTPError(http.StatusNotFound, "No custom page with that name found!")
 	}
 
-	htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
+	// See blackfriday's Markdown rendering: https://github.com/russross/blackfriday
+	unsafeHTMLContent := blackfriday.MarkdownCommon([]byte(p.Content))
+
+	// See how bluemonday prevents XSS here: https://github.com/microcosm-cc/bluemonday
+	safeHTMLContent := bluemonday.UGCPolicy().SanitizeBytes(unsafeHTMLContent)
 
 	data := pageViewTemplateContext{
 		PageID:       p.ID,
 		PageName:     p.Name,
-		PageContent:  template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
+		PageContent:  template.HTML(string(safeHTMLContent)), // convert the string to HTML so that html/templates knows it can be trusted
 		EditPagePath: generateEditPagePath(p),
 		Context:      c,
 	}
@@ -99,60 +104,6 @@ func (r *PageResource) ViewEditByName(c echo.Context) error {
 		data.PageContent = ""
 		data.SavePagePath = generateCreatePagePath(p)
 		data.PageExists = false
-	}
-
-	return c.Render(http.StatusOK, "page_edit", data)
-}
-
-// ViewByID shows a page
-func (r *PageResource) ViewByID(c echo.Context) error {
-	p, err := r.fetchPageFromIDString(c.Param("id"))
-	if err != nil {
-		return err
-	}
-
-	htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
-
-	data := struct {
-		PageID       int64
-		PageName     string
-		PageContent  template.HTML
-		EditPagePath string
-		Context      echo.Context
-	}{
-		p.ID,
-		p.Name,
-		template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
-		generateEditPagePath(p),
-		c,
-	}
-
-	return c.Render(http.StatusOK, "page_view", data)
-}
-
-// ViewEditByID shows the editor for a page
-func (r *PageResource) ViewEditByID(c echo.Context) error {
-	if !r.AuthService.IsAuthenticated(c) {
-		return c.String(http.StatusUnauthorized, "not authorized")
-	}
-
-	p, err := r.fetchPageFromIDString(c.Param("id"))
-	if err != nil {
-		return err
-	}
-
-	data := struct {
-		PageID       int64
-		PageName     string
-		PageContent  string
-		SavePagePath string
-		Context      echo.Context
-	}{
-		p.ID,
-		p.Name,
-		p.Content,
-		generateUpdatePagePath(p),
-		c,
 	}
 
 	return c.Render(http.StatusOK, "page_edit", data)

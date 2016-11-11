@@ -103,8 +103,6 @@ func Start(config Config) {
 	e.GET("/page/:name", pageResource.ViewByName)
 	e.GET("/page/:name/edit", pageResource.ViewEditByName)
 
-	e.GET("/page/id/:id", pageResource.ViewByID)
-	e.GET("/page/id/:id/edit", pageResource.ViewEditByID)
 	e.POST("/page/id/:id/actions/update", pageResource.ActionUpdateByID)
 	e.POST("/page/actions/create", pageResource.ActionCreate)
 
