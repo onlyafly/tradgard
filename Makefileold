@@ -1,0 +1,37 @@
+all: build
+	heroku local
+
+build:
+	go install -race ./cmd/tradgard ./...
+
+deps:
+	go get -u github.com/kardianos/govendor
+	govendor sync
+	brew install fswatch
+
+clean:
+	kill -9 $(lsof -i tcp:5000 | grep tradgard | cut -d' ' -f2)
+
+.PHONY: all build clean deps
+
+
+PID      = /tmp/awesome-golang-project.pid
+GO_FILES = $(wildcard *.go)
+APP      = ./app
+
+serve: restart
+	@fswatch -o . | xargs -n1 -I{}  make restart || make kill
+
+kill:
+	@kill `cat $(PID)` || true
+
+before:
+	@echo "actually do nothing"
+
+$(APP): $(GO_FILES)
+	@go build $? -o $@
+
+restart: kill before $(APP)
+  @app & echo $$! > $(PID)
+
+.PHONY: serve restart kill before

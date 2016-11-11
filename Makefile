@@ -1,14 +1,26 @@
-all: build
-	heroku local
+PID = /tmp/tradgard.pid
 
-build:
-	go install -race ./cmd/tradgard ./...
+all: serve
 
 deps:
 	go get -u github.com/kardianos/govendor
 	govendor sync
+	brew install fswatch
 
-clean:
-	kill -9 $(lsof -i tcp:5000 | grep tradgard | cut -d' ' -f2)
+serve: restart
+	@fswatch -o . | xargs -n1 -I{}  make restart
 
-.PHONY: all build clean deps
+before_restart:
+	@echo "Restarting..."
+
+kill:
+	@pkill -P `cat $(PID)` || true
+	@killall tradgard || true
+
+build:
+	@go install -race ./cmd/tradgard ./...
+
+restart: before_restart kill build
+	@heroku local & echo $$! > $(PID)
+
+.PHONY: all build deps kill serve restart
