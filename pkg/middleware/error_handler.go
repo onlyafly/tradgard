@@ -9,15 +9,17 @@ import (
 	"github.com/labstack/gommon/color"
 )
 
-func respondError(c echo.Context, statusCode int, statusMessage string) error {
+func respondError(c echo.Context, statusCode int, extraMessage string) error {
 	data := struct {
 		Context       echo.Context
 		StatusCode    int
 		StatusMessage string
+		ExtraMessage  string
 	}{
 		c,
 		statusCode,
-		statusMessage,
+		http.StatusText(statusCode),
+		extraMessage,
 	}
 
 	return c.Render(statusCode, "error", data)
@@ -40,23 +42,25 @@ func printError(err error, c echo.Context) {
 
 // CustomHTTPErrorHandler handles errors
 func CustomHTTPErrorHandler(err error, c echo.Context) {
-	code := http.StatusInternalServerError
-	msg := http.StatusText(code)
+	statusCode := http.StatusInternalServerError
+	extraMessage := ""
+
 	if he, ok := err.(*echo.HTTPError); ok {
-		code = he.Code
-		msg = he.Message
+		statusCode = he.Code
+		extraMessage = he.Message
 	}
 
 	if c.Echo().Debug() {
-		msg = err.Error()
+		extraMessage = err.Error()
 	}
 
 	if !c.Response().Committed() {
 		if c.Request().Method() == "HEAD" { // Echo Issue #608
-			c.NoContent(code)
+			c.NoContent(statusCode)
 		} else {
-			if errDuringResponse := respondError(c, code, msg); errDuringResponse != nil {
-				c.String(http.StatusInternalServerError, "How meta! Error rendering error response: "+errDuringResponse.Error())
+			if errDuringResponse := respondError(c, statusCode, extraMessage); errDuringResponse != nil {
+				c.String(http.StatusInternalServerError, "How meta! Error rendering error response.")
+				printError(errDuringResponse, c)
 			}
 		}
 	}

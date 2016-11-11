@@ -1,7 +1,8 @@
 {{define "error"}}
 {{template "partial_header" .}}
+<h1><b>{{.StatusCode}} {{.StatusMessage}}</b></h1>
 <section>
-  <b>{{.StatusCode}} {{.StatusMessage}}</b>
+  {{.ExtraMessage}}
 </section>
 {{template "partial_footer" .}}
 {{end}}
