@@ -1,8 +1,8 @@
 - [x] pages served by name
 - [x] translate page names back and forth between actual name and url
-- [ ] create page
+- [x] create page
   - [x] editing a non-existing page works
-  - [ ] viewing a non-existing page offers option to edit
+  - [x] viewing a non-existing page offers option to edit
 - [ ] link from page to page
 - [ ] link from root page to a page called "Home"
 - [ ] require password to log in

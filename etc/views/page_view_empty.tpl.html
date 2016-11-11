@@ -1,0 +1,9 @@
+{{define "page_view_empty"}}
+{{template "partial_header" .}}
+<a href="{{.EditPagePath}}">Edit</a>
+<h1>{{.PageName}}</h1>
+<section>
+<i>This page doesn't exist yet. <a href="{{.EditPagePath}}">Want to create it?</a></i>
+</section>
+{{template "partial_footer" .}}
+{{end}}

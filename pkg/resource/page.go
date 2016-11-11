@@ -12,6 +12,14 @@ import (
 	"github.com/russross/blackfriday"
 )
 
+type pageViewTemplateContext struct {
+	PageID       int64
+	PageName     string
+	PageContent  template.HTML
+	EditPagePath string
+	Context      echo.Context
+}
+
 // PageResource represents a page resource
 type PageResource struct {
 	PageService *service.PageService
@@ -29,25 +37,26 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 	if err != nil {
 		return err
 	} else if p == nil {
-		return echo.NewHTTPError(http.StatusNotFound, "No custom page with that name found!")
+		data := pageViewTemplateContext{
+			PageID:       -1,
+			PageName:     unescapedName,
+			PageContent:  "",
+			EditPagePath: generateEditPagePath(&service.PageModel{Name: unescapedName}),
+			Context:      c,
+		}
+		return c.Render(http.StatusOK, "page_view_empty", data)
+		//return echo.NewHTTPError(http.StatusNotFound, "No custom page with that name found!")
 	}
 
 	htmlContent := blackfriday.MarkdownCommon([]byte(p.Content))
 
-	data := struct {
-		PageID       int64
-		PageName     string
-		PageContent  template.HTML
-		EditPagePath string
-		Context      echo.Context
-	}{
-		p.ID,
-		p.Name,
-		template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
-		generateEditPagePath(p),
-		c,
+	data := pageViewTemplateContext{
+		PageID:       p.ID,
+		PageName:     p.Name,
+		PageContent:  template.HTML(string(htmlContent)), // convert the string to HTML so that html/templates knows it can be trusted
+		EditPagePath: generateEditPagePath(p),
+		Context:      c,
 	}
-
 	return c.Render(http.StatusOK, "page_view", data)
 }
 

@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"net/http"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
@@ -59,7 +61,7 @@ func Start(config Config) {
 	}))
 
 	r := &middleware.HTMLTemplateRenderer{
-		Templates: template.Must(template.ParseGlob("etc/views/*.html")),
+		Templates: template.Must(parseHTMLTemplatesRecursively("etc/views")),
 	}
 	e.SetRenderer(r)
 
@@ -121,4 +123,20 @@ func Start(config Config) {
 	if err := e.Run(standard.New(":" + config.Port)); err != nil {
 		fmt.Fprintln(os.Stderr, "[FATAL] Error starting server", err)
 	}
+}
+
+func parseHTMLTemplatesRecursively(basePath string) (*template.Template, error) {
+	templ := template.New("")
+	err := filepath.Walk(basePath, func(path string, info os.FileInfo, err error) error {
+		if strings.Contains(path, ".html") {
+			_, err = templ.ParseFiles(path)
+			if err != nil {
+				return err // This is a return from the Walk function
+			}
+		}
+
+		return err // This is a return from the Walk function
+	})
+
+	return templ, err
 }
