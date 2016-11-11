@@ -2,8 +2,13 @@ package service
 
 import (
 	"database/sql"
+	"fmt"
+	"net/url"
+	"regexp"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/microcosm-cc/bluemonday"
+	"github.com/russross/blackfriday"
 )
 
 // PageService is a page service
@@ -16,6 +21,38 @@ type PageModel struct {
 	ID      int64  `db:"id"`
 	Name    string `db:"name"`
 	Content string `db:"content"`
+}
+
+// GenerateHTML generates the HTML content for the page
+func (s *PageService) GenerateHTML(p *PageModel) string {
+	transformedContent := transformWikiLinks(p.Content)
+
+	// See blackfriday's Markdown rendering: https://github.com/russross/blackfriday
+	unsafeHTMLContent := blackfriday.MarkdownCommon([]byte(transformedContent))
+
+	// See how bluemonday prevents XSS here: https://github.com/microcosm-cc/bluemonday
+	safeHTMLContent := bluemonday.UGCPolicy().SanitizeBytes(unsafeHTMLContent)
+
+	return string(safeHTMLContent)
+}
+
+func transformWikiLinks(s string) string {
+	re := regexp.MustCompile(`{([^{]+)}`)
+	matches := re.FindAllStringSubmatchIndex(s, -1)
+
+	current := 0
+	output := ""
+	for _, match := range matches {
+		start := match[0]
+		nameStart := match[2]
+		nameEnd := match[3]
+		name := s[nameStart:nameEnd]
+		link := fmt.Sprintf("[%s](%s)", name, url.QueryEscape(name))
+		output = output + s[current:start] + link
+		current = match[1]
+	}
+	output = output + s[current:]
+	return output
 }
 
 // Get one page

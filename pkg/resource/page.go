@@ -8,9 +8,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo"
-	"github.com/microcosm-cc/bluemonday"
 	"github.com/onlyafly/tradgard/pkg/service"
-	"github.com/russross/blackfriday"
 )
 
 type pageViewTemplateContext struct {
@@ -49,16 +47,12 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 		//return echo.NewHTTPError(http.StatusNotFound, "No custom page with that name found!")
 	}
 
-	// See blackfriday's Markdown rendering: https://github.com/russross/blackfriday
-	unsafeHTMLContent := blackfriday.MarkdownCommon([]byte(p.Content))
-
-	// See how bluemonday prevents XSS here: https://github.com/microcosm-cc/bluemonday
-	safeHTMLContent := bluemonday.UGCPolicy().SanitizeBytes(unsafeHTMLContent)
+	generatedHTML := r.PageService.GenerateHTML(p)
 
 	data := pageViewTemplateContext{
 		PageID:       p.ID,
 		PageName:     p.Name,
-		PageContent:  template.HTML(string(safeHTMLContent)), // convert the string to HTML so that html/templates knows it can be trusted
+		PageContent:  template.HTML(generatedHTML), // convert the string to HTML so that html/templates knows it can be trusted
 		EditPagePath: generateEditPagePath(p),
 		Context:      c,
 	}
