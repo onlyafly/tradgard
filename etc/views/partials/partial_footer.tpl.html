@@ -7,19 +7,7 @@
   <script src="/bootstrap-4.0.0-alpha.5-dist/js/bootstrap.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-  <script>
-  // https://github.com/NextStepWebs/simplemde-markdown-editor
-  var simplemde = new SimpleMDE({
-    element: document.getElementById("pageContentEditor"),
-    forceSync: true,
-    insertTexts: {
-      horizontalRule: ["", "\n\n-----\n\n"],
-      image: ["![](http://", ")"],
-      link: ["[", "](http://)"],
-      table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
-    },
-  });
-  </script>
+  <script src="/js/editor.js"></script>
 </body>
 </html>
 {{end}}
