@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/url"
 	"regexp"
+	"time"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/microcosm-cc/bluemonday"
@@ -18,9 +19,10 @@ type PageService struct {
 
 // PageModel represents a page in the DB
 type PageModel struct {
-	ID      int64  `db:"id"`
-	Name    string `db:"name"`
-	Content string `db:"content"`
+	ID      int64     `db:"id"`
+	Name    string    `db:"name"`
+	Content string    `db:"content"`
+	Created time.Time `db:"created"`
 }
 
 // GenerateHTML generates the HTML content for the page

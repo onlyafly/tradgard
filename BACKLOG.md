@@ -6,8 +6,9 @@
 - [x] link from page to page
 - [x] link from root page to a page called "Home"
 - [ ] require password to log in
-- [ ] improve editing interface
-  - [ ] include markdown help
+- [x] improve editing interface
+  - [x] include markdown help
 - [ ] add simple styling
 - [ ] show nice error pages
 - [ ] provide some index of pages
+- [ ] Add more robust error logging with levels

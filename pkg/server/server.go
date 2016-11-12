@@ -97,7 +97,7 @@ func Start(config Config) {
 		}{
 			c,
 		}
-		return c.Render(http.StatusOK, "home", data)
+		return c.Render(http.StatusOK, "index", data)
 	})
 
 	e.GET("/:name", pageResource.ViewByName)
