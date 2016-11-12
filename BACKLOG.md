@@ -5,10 +5,10 @@
   - [x] viewing a non-existing page offers option to edit
 - [x] link from page to page
 - [x] link from root page to a page called "Home"
-- [ ] require password to log in
+- [x] require password to log in
 - [x] improve editing interface
   - [x] include markdown help
-- [ ] add simple styling
+- [x] add simple styling
 - [ ] show nice error pages
 - [ ] provide some index of pages
 - [ ] Add more robust error logging with levels

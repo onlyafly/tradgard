@@ -14,10 +14,14 @@ type UserResource struct {
 
 // ViewLogIn shows the Log In page
 func (r *UserResource) ViewLogIn(c echo.Context) error {
+	loginResult := c.QueryParam("login_result")
+
 	data := struct {
-		Context echo.Context
+		Context     echo.Context
+		LoginResult string
 	}{
 		c,
+		loginResult,
 	}
 
 	return c.Render(http.StatusOK, "login", data)
@@ -26,10 +30,16 @@ func (r *UserResource) ViewLogIn(c echo.Context) error {
 // ActionLogIn logs in the user
 func (r *UserResource) ActionLogIn(c echo.Context) error {
 	username := c.FormValue("username")
-	if err := r.AuthService.StoreUsernameInCookie(c, username); err != nil {
-		return err
+	password := c.FormValue("password")
+
+	if username == "kevin" && password == "test" {
+		if err := r.AuthService.StoreUsernameInCookie(c, username); err != nil {
+			return err
+		}
+		return c.Redirect(http.StatusSeeOther, "/")
 	}
-	return c.Redirect(http.StatusSeeOther, "/")
+
+	return c.Redirect(http.StatusSeeOther, "/user/login?login_result=failed")
 }
 
 // ViewLogOut logs out the user

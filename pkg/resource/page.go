@@ -16,6 +16,7 @@ type pageViewTemplateContext struct {
 	PageName     string
 	PageContent  template.HTML
 	EditPagePath string
+	Exists       bool
 	Context      echo.Context
 }
 
@@ -41,9 +42,10 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 			PageName:     unescapedName,
 			PageContent:  "",
 			EditPagePath: generateEditPagePath(&service.PageModel{Name: unescapedName}),
+			Exists:       false,
 			Context:      c,
 		}
-		return c.Render(http.StatusOK, "page_view_empty", data)
+		return c.Render(http.StatusOK, "page_view", data)
 		//return echo.NewHTTPError(http.StatusNotFound, "No custom page with that name found!")
 	}
 
@@ -54,6 +56,7 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 		PageName:     p.Name,
 		PageContent:  template.HTML(generatedHTML), // convert the string to HTML so that html/templates knows it can be trusted
 		EditPagePath: generateEditPagePath(p),
+		Exists:       true,
 		Context:      c,
 	}
 	return c.Render(http.StatusOK, "page_view", data)
