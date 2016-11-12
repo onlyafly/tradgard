@@ -23,8 +23,8 @@ func (r *UserResource) ViewLogIn(c echo.Context) error {
 	return c.Render(http.StatusOK, "login", data)
 }
 
-// PostLogInDo logs in the user
-func (r *UserResource) PostLogInDo(c echo.Context) error {
+// ActionLogIn logs in the user
+func (r *UserResource) ActionLogIn(c echo.Context) error {
 	username := c.FormValue("username")
 	if err := r.AuthService.StoreUsernameInCookie(c, username); err != nil {
 		return err
@@ -32,8 +32,8 @@ func (r *UserResource) PostLogInDo(c echo.Context) error {
 	return c.Redirect(http.StatusSeeOther, "/")
 }
 
-// GetLogOutDo logs out the user
-func (r *UserResource) GetLogOutDo(c echo.Context) error {
+// ViewLogOut logs out the user
+func (r *UserResource) ViewLogOut(c echo.Context) error {
 	r.AuthService.ClearCookie(c)
 	return c.Redirect(http.StatusSeeOther, "/")
 }

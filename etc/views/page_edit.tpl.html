@@ -1,23 +1,25 @@
 {{define "page_edit"}}
 {{template "partial_header" .}}
 <form action="{{.SavePagePath}}" method="post">
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="page_name" value="{{.PageName}}">
-    </div>
-    <div>
-        <label for="content">Content:</label>
-        <textarea id="content" name="page_content">{{.PageContent}}</textarea>
+    <div class="form-group">
+        <label for="nameTextInput" class="">Topic Title</label>
+        <input type="text" class="form-control form-control-lg tg-title-text-input" id="nameTextInput" name="page_name" value="{{.PageName}}">
     </div>
 
-    <div>
-      <h2>Help</h2>
-      <a href="http://commonmark.org/help/">http://commonmark.org/help/</a>
+    <div class="form-group">
+        <textarea
+            data-provide="markdown"
+            data-hidden-buttons="cmdPreview"
+            class="form-control" id="contentTextarea"
+            rows="20" name="page_content">{{.PageContent}}</textarea>
     </div>
 
-    <div class="button">
-        <button type="submit">{{if .PageExists}}Save{{end}}{{if not .PageExists}}Create{{end}}</button>
+    <div class="form-group">
+        <h2>Help</h2>
+        <a href="http://commonmark.org/help/">http://commonmark.org/help/</a>
     </div>
+
+    <button type="submit" class="btn btn-primary">{{if .PageExists}}Save{{end}}{{if not .PageExists}}Create{{end}}</button>
 </form>
 {{template "partial_footer" .}}
 {{end}}

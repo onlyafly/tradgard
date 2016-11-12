@@ -142,19 +142,19 @@ func (r *PageResource) ActionCreate(c echo.Context) error {
 }
 
 func generateViewPagePath(p *service.PageModel) string {
-	return fmt.Sprintf("/page/%s", url.QueryEscape(p.Name))
+	return fmt.Sprintf("/%s", url.QueryEscape(p.Name))
 }
 
 func generateEditPagePath(p *service.PageModel) string {
-	return fmt.Sprintf("/page/%s/edit", url.QueryEscape(p.Name))
+	return fmt.Sprintf("/%s/edit", url.QueryEscape(p.Name))
 }
 
 func generateUpdatePagePath(p *service.PageModel) string {
-	return fmt.Sprintf("/page/id/%d/actions/update", p.ID)
+	return fmt.Sprintf("/actions/update_page/id/%d", p.ID)
 }
 
 func generateCreatePagePath(p *service.PageModel) string {
-	return fmt.Sprintf("/page/actions/create")
+	return fmt.Sprintf("/actions/create_page")
 }
 
 func (r *PageResource) fetchPageFromIDString(idString string) (*service.PageModel, error) {

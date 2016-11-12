@@ -1,13 +1,25 @@
 {{define "partial_header"}}
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
-  <title></title>
+  <title>Garden</title>
+
+  <!-- Required meta tags always come first -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/bootstrap-markdown/css/bootstrap-markdown.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/tradgard.css">
 </head>
 <body>
   <section>
-    <a href="/page/Home">Home</a> | <a href="/login">Log In</a> | <a href="/logout">Log Out</a> | (Logged in as: {{.Context.Get "username"}})
+    <a href="/Home">Home</a> | <a href="/user/login">Log In</a> | <a href="/user/logout">Log Out</a> | (Logged in as: {{.Context.Get "username"}})
   </section>
   <hr>
-  <section>
+  <div class="container">
 {{end}}

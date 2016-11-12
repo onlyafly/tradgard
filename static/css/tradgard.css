@@ -1,0 +1,9 @@
+.tg-title-text-input {
+    font-weight: bold;
+    font-size: 3.75rem;
+    height: 56px;
+}
+
+.md-editor>textarea {
+    padding: 5px;
+}

@@ -100,15 +100,16 @@ func Start(config Config) {
 		return c.Render(http.StatusOK, "home", data)
 	})
 
-	e.GET("/page/:name", pageResource.ViewByName)
-	e.GET("/page/:name/edit", pageResource.ViewEditByName)
+	e.GET("/:name", pageResource.ViewByName)
+	e.GET("/:name/edit", pageResource.ViewEditByName)
 
-	e.POST("/page/id/:id/actions/update", pageResource.ActionUpdateByID)
-	e.POST("/page/actions/create", pageResource.ActionCreate)
+	e.POST("/actions/update_page/id/:id", pageResource.ActionUpdateByID)
+	e.POST("/actions/create_page", pageResource.ActionCreate)
 
-	e.GET("/login", userResource.ViewLogIn)
-	e.POST("/login/do", userResource.PostLogInDo)
-	e.GET("/logout", userResource.GetLogOutDo)
+	e.GET("/user/login", userResource.ViewLogIn)
+	e.GET("/user/logout", userResource.ViewLogOut)
+
+	e.POST("/actions/login", userResource.ActionLogIn)
 
 	// Static
 

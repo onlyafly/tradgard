@@ -4,9 +4,10 @@
   - [x] editing a non-existing page works
   - [x] viewing a non-existing page offers option to edit
 - [x] link from page to page
-- [ ] link from root page to a page called "Home"
+- [x] link from root page to a page called "Home"
 - [ ] require password to log in
 - [ ] improve editing interface
   - [ ] include markdown help
 - [ ] add simple styling
 - [ ] show nice error pages
+- [ ] provide some index of pages
