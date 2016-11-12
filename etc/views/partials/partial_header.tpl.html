@@ -1,28 +1,47 @@
 {{define "partial_header"}}
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
-  <title>Garden</title>
+    <title>Garden</title>
 
-  <!-- Required meta tags always come first -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="/bootstrap-4.0.0-alpha.5-dist/css/bootstrap.min.css">
 
-  <!-- <link rel="stylesheet" href="/bootstrap-markdown/css/bootstrap-markdown.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="/css/tradgard.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/tradgard.css">
 </head>
+
 <body>
-  <section>
-    <a href="/Home">Home</a> | <a href="/user/login">Log In</a> | <a href="/user/logout">Log Out</a> | (Logged in as: {{.Context.Get "username"}})
-  </section>
-  <hr>
-  <div class="container">
+    <nav class="navbar navbar-full navbar-light" style="background-color: #e3f2fd;">
+        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive"></button>
+        <div class="collapse navbar-toggleable-md" id="navbarResponsive">
+            <a class="navbar-brand" href="/">Tradgard</a>
+            <ul class="nav navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Home">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav float-lg-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/login">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/logout">Log Out</a>
+                </li>
+                <li class="nav-item">
+                    <span class="navbar-text text-muted">({{.Context.Get "username"}})</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
 {{end}}

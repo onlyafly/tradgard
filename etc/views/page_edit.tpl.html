@@ -14,11 +14,6 @@
             name="page_content">{{.PageContent}}</textarea>
     </div>
 
-    <div class="form-group">
-        <h2>Help</h2>
-        <a href="http://commonmark.org/help/">http://commonmark.org/help/</a>
-    </div>
-
     <button type="submit" class="btn btn-primary">{{if .PageExists}}Save{{end}}{{if not .PageExists}}Create{{end}}</button>
 </form>
 {{template "partial_footer" .}}
