@@ -1,8 +1,12 @@
 {{define "index"}}
 {{template "partial_header" .}}
-<h1>Welcome!</h1>
-<ul>
-  <li><a href="/Home">Home</a></li>
-</ul>
+<h1>Welcome, <a href="/Home">Home</a>!</h1>
+<hr>
+<h2>Recently Updated Pages</h2>
+<ol>
+  {{range .RecentPages}}
+    <li><a href="{{.EscapedName}}">{{.Name}}</a></li>
+  {{end}}
+</ol>
 {{template "partial_footer" .}}
 {{end}}

@@ -3,7 +3,6 @@ package server
 import (
 	"fmt"
 	"html/template"
-	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -81,6 +80,9 @@ func Start(config Config) {
 
 	// Resources
 
+	indexResource := &resource.IndexResource{
+		PageService: pageService,
+	}
 	pageResource := &resource.PageResource{
 		PageService: pageService,
 		AuthService: authService,
@@ -91,14 +93,7 @@ func Start(config Config) {
 
 	// Routes
 
-	e.GET("/", func(c echo.Context) error {
-		data := struct {
-			Context echo.Context
-		}{
-			c,
-		}
-		return c.Render(http.StatusOK, "index", data)
-	})
+	e.GET("/", indexResource.ViewIndex)
 
 	e.GET("/:name", pageResource.ViewByName)
 	e.GET("/:name/edit", pageResource.ViewEditByName)

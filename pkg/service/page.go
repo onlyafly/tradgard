@@ -25,6 +25,12 @@ type PageModel struct {
 	Created time.Time `db:"created"`
 }
 
+// PageInfo represents a page info
+type PageInfo struct {
+	Name        string
+	EscapedName string
+}
+
 // GenerateHTML generates the HTML content for the page
 func (s *PageService) GenerateHTML(p *PageModel) string {
 	transformedContent := transformWikiLinks(p.Content)
@@ -55,6 +61,29 @@ func transformWikiLinks(s string) string {
 	}
 	output = output + s[current:]
 	return output
+}
+
+// GetRecentlyUpdatedPageInfos get recently updated page names
+func (s *PageService) GetRecentlyUpdatedPageInfos(limit int) ([]*PageInfo, error) {
+	stmt := `SELECT name
+           FROM pages
+           ORDER BY created DESC
+           LIMIT $1`
+	pages := []*PageModel{}
+	err := s.DB.Select(&pages, stmt, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	infos := make([]*PageInfo, len(pages))
+	for i, page := range pages {
+		infos[i] = &PageInfo{
+			Name:        page.Name,
+			EscapedName: url.QueryEscape(page.Name),
+		}
+	}
+
+	return infos, nil
 }
 
 // Get one page
