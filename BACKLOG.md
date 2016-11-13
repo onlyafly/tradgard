@@ -10,6 +10,26 @@
   - [x] include markdown help
 - [x] add simple styling
 - [x] show nice error pages
-- [ ] provide some index of pages
+- [x] provide some index of pages
 - [ ] Add more robust error logging with levels
-- [ ] Improve styling of blockquotes
+- [ ] https://github.com/gopherjs/gopherjs
+
+# Viewing pages
+
+- [x] Improve styling of blockquotes
+- [ ] Link automatically back to all pages referencing this one
+
+# Editing pages
+
+- [ ] Link to both basic markdown + blackfriday extensions + internal linking extension
+
+## Markdown to HTML generation
+
+- [ ] Fork and improve blackfriday
+  - [ ] Generate headers with anchors
+  - [ ] Generate table of contents automatically
+  - [ ] Generate blockquotes with class="blockquote" to match bootstrap: http://v4-alpha.getbootstrap.com/content/typography/#blockquotes
+
+## Markdown editor
+
+- [ ] Unite the preview to match the exact output of the actual html generation
