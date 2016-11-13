@@ -21,7 +21,7 @@
 
 # Editing pages
 
-- [ ] Link to both basic markdown + blackfriday extensions + internal linking extension
+- [x] Link to both basic markdown + blackfriday extensions + internal linking extension
 
 ## Markdown to HTML generation
 
@@ -29,6 +29,7 @@
   - [ ] Generate headers with anchors
   - [ ] Generate table of contents automatically
   - [ ] Generate blockquotes with class="blockquote" to match bootstrap: http://v4-alpha.getbootstrap.com/content/typography/#blockquotes
+  - [ ] External links open in new tab
 
 ## Markdown editor
 

@@ -1,20 +1,57 @@
 {{define "page_edit"}}
 {{template "partial_header" .}}
-<form action="{{.SavePagePath}}" method="post">
-    <div class="form-group">
-        <label for="nameTextInput" class="">Topic Title</label>
-        <input type="text" class="form-control form-control-lg tg-title-text-input" id="nameTextInput" name="page_name" value="{{.PageName}}">
+<div class="row">
+  <div class="col-sm-12">
+    <form action="{{.SavePagePath}}" method="post">
+        <div class="form-group">
+            <label for="nameTextInput" class="">Topic Title</label>
+            <input type="text" class="form-control form-control-lg tg-title-text-input" id="nameTextInput" name="page_name" value="{{.PageName}}">
+        </div>
+
+        <div class="form-group">
+            <textarea id="pageContentEditor" class="form-control" rows="20" name="page_content">{{.PageContent}}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{if .PageExists}}Save{{end}}{{if not .PageExists}}Create{{end}}</button>
+    </form>
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Markdown Guides</h4>
+                <p class="card-text">See these guides for how to use Markdown.</p>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a target="_blank" href="https://simplemde.com/markdown-guide">Basic Markdown Guide</a></li>
+                <li class="list-group-item"><a target="_blank" href="https://github.com/russross/blackfriday#extensions">Blackfriday Markdown Extensions</a></li>
+            </ul>
+        </div>
     </div>
 
-    <div class="form-group">
-        <textarea
-            id="pageContentEditor"
-            class="form-control"
-            rows="20"
-            name="page_content">{{.PageContent}}</textarea>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Tradgard Markdown Extensions</h4>
+                <p class="card-text">These special rules are used by Tradgard.</p>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <b>{</b>Name of a page<b>}</b><br>
+                  Phrases surrounded in curly brackets will link to the wiki page with that name
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">{{if .PageExists}}Save{{end}}{{if not .PageExists}}Create{{end}}</button>
-</form>
+</div>
+
 {{template "partial_footer" .}}
 {{end}}
