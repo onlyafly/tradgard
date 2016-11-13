@@ -12,3 +12,4 @@
 - [x] show nice error pages
 - [ ] provide some index of pages
 - [ ] Add more robust error logging with levels
+- [ ] Improve styling of blockquotes
