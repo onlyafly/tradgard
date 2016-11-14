@@ -20,31 +20,40 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-full navbar-light" style="background-color: #e3f2fd;">
-        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive"></button>
-        <div class="collapse navbar-toggleable-md" id="navbarResponsive">
-            <a class="navbar-brand" href="/">Tradgard</a>
-            <ul class="nav navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/Home">Home</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav float-lg-right">
-                <li class="nav-item">
-                  {{if .Context.Get "username" }}
-                    <a class="nav-link" href="/user/logout">Log Out</a>
-                  {{else}}
-                    <a class="nav-link" href="/user/login">Log In</a>
-                  {{end}}
-                </li>
-                <li class="nav-item">
-                  {{if .Context.Get "username" }}
-                    <span class="navbar-text text-muted">({{.Context.Get "username"}})</span>
-                  {{end}}
-                </li>
-            </ul>
-        </div>
-    </nav>
+
     <br>
+    <div class="container">
+
+        <div class="float-sm-right">
+            {{if .Context.Get "username" }}
+                {{if .Context.Get "showEditButton"}}
+                    <span class="tg-nav-actions">
+                        <a href="{{.EditPagePath}}" class="btn btn-outline-success"><i class="fa fa-pencil"></i> Edit Page</a>
+                    </span>
+                {{end}}
+
+                <span class="tg-nav-username">
+                    <i class="fa fa-user-circle"></i> {{.Context.Get "username"}}
+                </span>
+            {{end}}
+
+            <span class="tg-nav-user-actions">
+                {{if .Context.Get "username" }}
+                    <a class="btn btn-outline-secondary" href="/user/logout" role="button"><i class="fa fa-sign-out"></i> Sign Out</a>
+                {{else}}
+                    <a class="btn btn-outline-secondary" href="/user/login" role="button"><i class="fa fa-sign-in"></i> Sign In</a>
+                {{end}}
+            </span>
+        </div>
+
+        <div>
+            <span class="tg-main-logo"><a href="/">Kevin's Garden</a></span>
+            <span class="tg-nav-item"><a href="/Home"><i class="fa fa-home"></i></a></span>
+        </div>
+
+        <hr class="tg-nav-hr">
+
+    </div>
+
     <div class="container">
 {{end}}

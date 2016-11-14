@@ -59,6 +59,7 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 		Exists:       true,
 		Context:      c,
 	}
+	c.Set("showEditButton", true)
 	return c.Render(http.StatusOK, "page_view", data)
 }
 

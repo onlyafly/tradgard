@@ -1,3 +1,11 @@
+a {
+    color: #21bf6a;
+}
+
+a:focus, a:hover {
+    color: #018c81;
+}
+
 .tg-title-text-input {
     font-weight: bold;
     font-size: 2rem;
@@ -5,6 +13,31 @@
 
 .tg-page-title {
   font-weight: 700;
+}
+
+/***** Navigation *****/
+
+.tg-main-logo {
+    font-size: 26px;
+    margin-right: 20px;
+}
+
+.tg-nav-item {
+    font-size: 26px;
+}
+
+.tg-nav-actions {
+    margin-right: 20px;
+}
+
+.tg-nav-username {
+    color: #ccc;
+    margin-right: 20px;
+}
+
+.tg-nav-hr {
+    margin-top: 22px;
+    margin-bottom: 22px;
 }
 
 blockquote {
