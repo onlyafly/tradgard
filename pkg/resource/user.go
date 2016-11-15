@@ -2,6 +2,7 @@ package resource
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/labstack/echo"
 	"github.com/onlyafly/tradgard/pkg/service"
@@ -32,7 +33,7 @@ func (r *UserResource) ActionLogIn(c echo.Context) error {
 	username := c.FormValue("username")
 	password := c.FormValue("password")
 
-	if username == "kevin" && password == "test" {
+	if username == os.Getenv("ADMIN_USERNAME") && password == os.Getenv("ADMIN_PASSWORD") {
 		if err := r.AuthService.StoreUsernameInCookie(c, username); err != nil {
 			return err
 		}

@@ -1,27 +1,21 @@
-- [x] pages served by name
-- [x] translate page names back and forth between actual name and url
-- [x] create page
-  - [x] editing a non-existing page works
-  - [x] viewing a non-existing page offers option to edit
-- [x] link from page to page
-- [x] link from root page to a page called "Home"
-- [x] require password to log in
-- [x] improve editing interface
-  - [x] include markdown help
-- [x] add simple styling
-- [x] show nice error pages
-- [x] provide some index of pages
-- [ ] Add more robust error logging with levels
-- [ ] https://github.com/gopherjs/gopherjs
+- [ ] Instructions for installing Tradgard
+
+# Multi-user support
+
+- [ ] Logins for multiple users (?)
+- [ ] Sections for pages owned by different users (?)
+- [ ] Forking pages to other Tradgard sites (?)
+
+# Finding pages
+
+- [ ] Tag pages and search/list of tags
 
 # Viewing pages
 
-- [x] Improve styling of blockquotes
 - [ ] Link automatically back to all pages referencing this one
+- [ ] See revision history of pages
 
 # Editing pages
-
-- [x] Link to both basic markdown + blackfriday extensions + internal linking extension
 
 ## Markdown to HTML generation
 
@@ -34,3 +28,12 @@
 ## Markdown editor
 
 - [ ] Unite the preview to match the exact output of the actual html generation
+
+## Other editing
+
+- [ ] Drag and drop upload of images
+
+# Technical improvements
+
+- [ ] Add more robust error logging with levels
+- [ ] https://github.com/gopherjs/gopherjs
