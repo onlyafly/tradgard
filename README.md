@@ -36,14 +36,14 @@ Create a Postgres database called "tradgard".
 
 Make a copy of the file "example.env" and name the copy ".env".
 
-Change these variables in the ".env" file to customer values:
+Change these variables in the ".env" file to custom values:
 
     ADMIN_USERNAME=foo
     ADMIN_PASSWORD=bar
     COOKIE_32_BYTE_HASH_KEY=This key should be 32 bytes long
     COOKIE_32_BYTE_BLOCK_KEY=This key should be 32 bytes long
 
-Install all depedencies:
+Install all dependencies:
 
     make deps
 
