@@ -1,4 +1,4 @@
-- [ ] Instructions for installing Tradgard
+- [x] Instructions for installing Tradgard
 
 # Multi-user support
 

@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"fmt"
+
 	"github.com/labstack/echo"
 	"github.com/onlyafly/tradgard/pkg/service"
 )
@@ -10,7 +12,7 @@ func CookieBasedAuthentication(authService *service.AuthService) func(echo.Handl
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			if err := authService.ExtractDataFromCookie(c); err != nil {
-				return err
+				return fmt.Errorf("Problem extracting data from cookie: %s", err)
 			}
 			return next(c)
 		}

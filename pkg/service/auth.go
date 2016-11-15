@@ -62,11 +62,13 @@ func (s *AuthService) ExtractDataFromCookie(c echo.Context) error {
 		encodedCookieString := cookie.Value()
 		decodedCookie, err := s.decodeCookie(encodedCookieString)
 		if err != nil {
-			return err
+			fmt.Println("[DEBUG] Problem decoding cookie: " + err.Error())
+			fmt.Println("[DEBUG] Clearing cookie")
+			s.ClearCookie(c)
+		} else {
+			fmt.Println("[DEBUG] Data found in cookie session:", decodedCookie)
+			c.Set("username", decodedCookie["username"])
 		}
-
-		fmt.Println("[DEBUG] Data found in cookie session:", decodedCookie)
-		c.Set("username", decodedCookie["username"])
 	}
 	return nil
 }
