@@ -1,12 +1,16 @@
 # Tradgard: a garden for ideas
 
-**Author:** Kevin Albrecht, http://www.kevinalbrecht.com
+## About
 
-Tradgard is a modern take a wiki. It is still pretty young.
+**Tradgard** is a modern take a wiki. It is still pretty young.
 
-## Initial setup
+You can read the motivation behind Tradgard at [Tradgard's Motivation](http://garden.kevinalbrecht.com/Tradgard%27s+Motivation).
 
-### Initial setup on your local machine
+You can contact the author at his website, [KevinAlbrecht.com](http://www.kevinalbrecht.com) or on Twitter [@kevinpalbrecht](https://twitter.com/kevinpalbrecht).
+
+## Installation on macOS
+
+### Installation Step #1: Install Go
 
 Install Go on your machine:
 
@@ -30,7 +34,11 @@ Clone the Tradgard source code. Note that your should clone it into a subdirecto
     cd ~/src
     git clone https://github.com/onlyafly/tradgard.git
 
+### Installation Step #2: Install Postgres
+
 Install Postgres on your machine.
+
+### Installation Step #3: Setup Tradgard
 
 Create a Postgres database called "tradgard".
 
@@ -47,13 +55,11 @@ Install all dependencies:
 
     make deps
 
-You are ready to go!
+### Installation Step #4: Deploy to Heroku
 
-### Initial setup on Heroku
+*TODO*
 
-(work in progress)
-
-## Running on your local machine
+## Running the Webserver
 
 Start the server (the server will restart automatically on file changes):
 
@@ -91,7 +97,6 @@ Fetch all referenced dependencies
 
     govendor fetch +e
 
-
 ## Troubleshooting
 
 #### Error starting server listen tcp :5000: bind: address already in use
@@ -99,3 +104,7 @@ Fetch all referenced dependencies
 Kill the process
 
     make clean
+
+## License
+
+The code is available under the [MIT](https://github.com/onlyafly/tradgard/blob/master/LICENSE) license.
