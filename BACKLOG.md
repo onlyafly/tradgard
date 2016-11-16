@@ -24,10 +24,12 @@
   - [ ] Generate table of contents automatically
   - [ ] Generate blockquotes with class="blockquote" to match bootstrap: http://v4-alpha.getbootstrap.com/content/typography/#blockquotes
   - [ ] External links open in new tab
+  - [ ] Put an image next to external links so that you can tell which ones are external
 
 ## Markdown editor
 
 - [ ] Unite the preview to match the exact output of the actual html generation
+    - [ ] Maybe use the fork of blackfriday compiled to JS using https://github.com/gopherjs/gopherjs
 
 ## Other editing
 
