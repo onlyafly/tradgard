@@ -9,6 +9,11 @@
 # Finding pages
 
 - [ ] Tag pages and search/list of tags
+- [ ] Columns at the bottom of the page showing pages linking to and from this page:
+
+Pages linking to this page  |  This Page  | Pages linked from this page
+----------------------------|-------------|----------------------------
+asdf                        |             |  adsfasdf
 
 # Viewing pages
 
