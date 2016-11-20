@@ -79,6 +79,7 @@ func (r *PageResource) ViewEditByName(c echo.Context) error {
 		PageName     string
 		PageContent  string
 		SavePagePath string
+		PagePath     string
 		PageExists   bool
 		Context      echo.Context
 	}{
@@ -95,12 +96,14 @@ func (r *PageResource) ViewEditByName(c echo.Context) error {
 		data.PageName = p.Name
 		data.PageContent = p.Content
 		data.SavePagePath = generateUpdatePagePath(p)
+		data.PagePath = generateViewPagePath(p)
 		data.PageExists = true
 	} else {
 		data.PageID = -1
 		data.PageName = unescapedName
 		data.PageContent = ""
-		data.SavePagePath = generateCreatePagePath(p)
+		data.SavePagePath = generateCreatePagePath()
+		data.PagePath = generateViewPagePath(&service.PageModel{Name: unescapedName})
 		data.PageExists = false
 	}
 
@@ -157,7 +160,7 @@ func generateUpdatePagePath(p *service.PageModel) string {
 	return fmt.Sprintf("/actions/update_page/id/%d", p.ID)
 }
 
-func generateCreatePagePath(p *service.PageModel) string {
+func generateCreatePagePath() string {
 	return fmt.Sprintf("/actions/create_page")
 }
 
