@@ -23,6 +23,7 @@ type PageModel struct {
 	Name    string    `db:"name"`
 	Content string    `db:"content"`
 	Created time.Time `db:"created"`
+	Updated time.Time `db:"updated"`
 }
 
 // PageInfo represents a page info
@@ -44,6 +45,10 @@ func (s *PageService) GenerateHTML(p *PageModel) string {
 	return string(safeHTMLContent)
 }
 
+// transformWikiLinks finds all wiki links:
+//     {like this}
+// and turns them into standard Markdown links:
+//     [like this](like%20this)
 func transformWikiLinks(s string) string {
 	re := regexp.MustCompile(`{([^{]+)}`)
 	matches := re.FindAllStringSubmatchIndex(s, -1)
@@ -66,9 +71,9 @@ func transformWikiLinks(s string) string {
 // GetRecentlyUpdatedPageInfos get recently updated page names
 func (s *PageService) GetRecentlyUpdatedPageInfos(limit int) ([]*PageInfo, error) {
 	stmt := `SELECT name
-           FROM pages
-           ORDER BY created DESC
-           LIMIT $1`
+	         FROM pages
+	         ORDER BY updated DESC
+	         LIMIT $1`
 	pages := []*PageModel{}
 	err := s.DB.Select(&pages, stmt, limit)
 	if err != nil {
@@ -89,9 +94,9 @@ func (s *PageService) GetRecentlyUpdatedPageInfos(limit int) ([]*PageInfo, error
 // Get one page
 func (s *PageService) Get(key int64) (*PageModel, error) {
 	stmt := `SELECT *
-           FROM pages
-           WHERE id=$1
-           LIMIT 1`
+	         FROM pages
+	         WHERE id=$1
+	         LIMIT 1`
 	p := &PageModel{}
 	err := s.DB.Get(p, stmt, key)
 	switch err {
@@ -107,9 +112,9 @@ func (s *PageService) Get(key int64) (*PageModel, error) {
 // GetByName gets one page by name
 func (s *PageService) GetByName(name string) (*PageModel, error) {
 	stmt := `SELECT *
-           FROM pages
-           WHERE name=$1
-           LIMIT 1`
+	         FROM pages
+	         WHERE name=$1
+	         LIMIT 1`
 	p := &PageModel{}
 	err := s.DB.Get(p, stmt, name)
 	switch err {
@@ -126,9 +131,10 @@ func (s *PageService) GetByName(name string) (*PageModel, error) {
 func (s *PageService) Update(p *PageModel) error {
 	stmt := `UPDATE pages
 	         SET
-					   content = :content,
-						 name = :name
-           WHERE id = :id`
+	           content = :content,
+	           name = :name,
+			   updated = now()
+	         WHERE id = :id`
 	_, err := s.DB.NamedExec(stmt, p)
 	return err
 }
@@ -136,9 +142,9 @@ func (s *PageService) Update(p *PageModel) error {
 // Create a page in the DB
 func (s *PageService) Create(p *PageModel) error {
 	stmt := `INSERT INTO pages
-					   (name, content)
-					 VALUES
-					   (:name, :content)`
+	           (name, content)
+	         VALUES
+	           (:name, :content)`
 	_, err := s.DB.NamedExec(stmt, p)
 	return err
 }

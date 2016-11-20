@@ -1,3 +1,5 @@
+/***** Site-wide style *****/
+
 a {
     color: #21bf6a;
 }
@@ -5,6 +7,36 @@ a {
 a:focus, a:hover {
     color: #018c81;
 }
+
+blockquote {
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    quotes: "\201C" "\201D" "\201C" "\201D";
+}
+
+blockquote:before {
+    color: #ccc;
+    content: open-quote;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
+}
+
+blockquote p {
+    display: inline;
+}
+
+h1 {
+}
+
+h2 {
+    margin-top: 26px;
+}
+
+/***** Title *****/
 
 .tg-title-text-input {
     font-weight: bold;
@@ -38,25 +70,4 @@ a:focus, a:hover {
 .tg-nav-hr {
     margin-top: 22px;
     margin-bottom: 22px;
-}
-
-blockquote {
-    background: #f9f9f9;
-    border-left: 10px solid #ccc;
-    margin: 1.5em 10px;
-    padding: 0.5em 10px;
-    quotes: "\201C" "\201D" "\201C" "\201D";
-}
-
-blockquote:before {
-    color: #ccc;
-    content: open-quote;
-    font-size: 4em;
-    line-height: 0.1em;
-    margin-right: 0.25em;
-    vertical-align: -0.4em;
-}
-
-blockquote p {
-    display: inline;
 }
