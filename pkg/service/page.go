@@ -14,7 +14,8 @@ import (
 
 // PageService is a page service
 type PageService struct {
-	DB *sqlx.DB
+	DB          *sqlx.DB
+	LinkService *LinkService
 }
 
 // PageModel represents a page in the DB
@@ -125,6 +126,47 @@ func (s *PageService) GetByName(name string) (*PageModel, error) {
 	default:
 		return nil, err
 	}
+}
+
+// RegeneratePageLinks regenerates all links for this page
+func (s *PageService) RegeneratePageLinks(p *PageModel) error {
+	// Remove all existing links from this page
+	if err := s.LinkService.DeleteByFromPageID(p.ID); err != nil {
+		return err
+	}
+
+	// Create the new links
+	linkNames := findLinkNamesInContent(p.Content)
+
+	for _, name := range linkNames {
+		pother, err := s.GetByName(name)
+		if err != nil {
+			return err
+		} else if pother == nil {
+			continue
+		}
+
+		if err := s.LinkService.AddLink(p.ID, pother.ID); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// findLinkNamesInContent finds all wiki links {like this} and returns the names of the links
+func findLinkNamesInContent(content string) []string {
+	re := regexp.MustCompile(`{([^{]+)}`)
+	matches := re.FindAllStringSubmatchIndex(content, -1)
+
+	links := []string{}
+	for _, match := range matches {
+		nameStart := match[2]
+		nameEnd := match[3]
+		name := content[nameStart:nameEnd]
+		links = append(links, name)
+	}
+	return links
 }
 
 // Update a page in the DB

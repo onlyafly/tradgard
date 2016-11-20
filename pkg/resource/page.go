@@ -123,6 +123,9 @@ func (r *PageResource) ActionUpdateByID(c echo.Context) error {
 	if err := r.PageService.Update(p); err != nil {
 		return err
 	}
+	if err := r.PageService.RegeneratePageLinks(p); err != nil {
+		return err
+	}
 
 	return c.Redirect(http.StatusSeeOther, generateViewPagePath(p))
 }
@@ -135,6 +138,9 @@ func (r *PageResource) ActionCreate(c echo.Context) error {
 	}
 
 	if err := r.PageService.Create(pCreate); err != nil {
+		return err
+	}
+	if err := r.PageService.RegeneratePageLinks(pCreate); err != nil {
 		return err
 	}
 

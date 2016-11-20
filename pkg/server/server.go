@@ -66,8 +66,12 @@ func Start(config Config) {
 
 	// Services
 
-	pageService := &service.PageService{
+	linkService := &service.LinkService{
 		DB: config.Database,
+	}
+	pageService := &service.PageService{
+		DB:          config.Database,
+		LinkService: linkService,
 	}
 	authService := &service.AuthService{
 		CookieName:   cookieName,
