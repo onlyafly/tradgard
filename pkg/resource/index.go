@@ -14,14 +14,14 @@ type IndexResource struct {
 
 // ViewIndex shows the index page
 func (r *IndexResource) ViewIndex(c echo.Context) error {
-	pageInfos, err := r.PageService.GetRecentlyUpdatedPageInfos(10)
+	pageInfos, err := r.PageService.GetRecentlyUpdatedPageAddressInfos(10)
 	if err != nil {
 		return err
 	}
 
 	data := struct {
 		Context     echo.Context
-		RecentPages []*service.PageInfo
+		RecentPages []*service.PageAddressInfo
 	}{
 		c,
 		pageInfos,

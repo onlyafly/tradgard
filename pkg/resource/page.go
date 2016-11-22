@@ -12,18 +12,21 @@ import (
 )
 
 type pageViewTemplateContext struct {
-	PageID       int64
-	PageName     string
-	PageContent  template.HTML
-	EditPagePath string
-	Exists       bool
-	Context      echo.Context
+	PageID        int64
+	PageName      string
+	PageContent   template.HTML
+	EditPagePath  string
+	IncomingLinks []*service.PageAddressInfo
+	OutgoingLinks []*service.PageAddressInfo
+	Exists        bool
+	Context       echo.Context
 }
 
 // PageResource represents a page resource
 type PageResource struct {
 	PageService *service.PageService
 	AuthService *service.AuthService
+	LinkService *service.LinkService
 }
 
 // ViewByName shows a page given its name
@@ -51,13 +54,25 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 
 	generatedHTML := r.PageService.GenerateHTML(p)
 
+	incomingLinks, err := r.PageService.GetLinkedPageAddressInfosByToPageID(p.ID)
+	if err != nil {
+		return err
+	}
+
+	outgoingLinks, err := r.PageService.GetLinkedPageAddressInfosByFromPageID(p.ID)
+	if err != nil {
+		return err
+	}
+
 	data := pageViewTemplateContext{
-		PageID:       p.ID,
-		PageName:     p.Name,
-		PageContent:  template.HTML(generatedHTML), // convert the string to HTML so that html/templates knows it can be trusted
-		EditPagePath: generateEditPagePath(p),
-		Exists:       true,
-		Context:      c,
+		PageID:        p.ID,
+		PageName:      p.Name,
+		PageContent:   template.HTML(generatedHTML), // convert the string to HTML so that html/templates knows it can be trusted
+		EditPagePath:  generateEditPagePath(p),
+		IncomingLinks: incomingLinks,
+		OutgoingLinks: outgoingLinks,
+		Exists:        true,
+		Context:       c,
 	}
 	c.Set("showEditButton", true)
 	return c.Render(http.StatusOK, "page_view", data)

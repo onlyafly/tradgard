@@ -1,15 +1,51 @@
 {{define "page_view"}}
 {{template "partial_header" .}}
-
 <h1 class="display-4 tg-page-title">{{.PageName}}</h1>
 
 <section>
-  {{if .Exists}}
-    {{.PageContent}}
-  {{else}}
-    <i>This page doesn't exist yet. <a href="{{.EditPagePath}}">Want to create it?</a></i>
-  {{end}}
+    {{if .Exists}} {{.PageContent}} {{else}}
+    <i>This page doesn't exist yet. <a href="{{.EditPagePath}}">Want to create it?</a></i> {{end}}
 </section>
+
+<br><hr><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+
+            <div class="card">
+                <div class="card-header">
+                    Pages ⟶ Here
+                </div>
+                <div class="card-block">
+                    <ul>
+                        {{range .IncomingLinks}}
+                            <li><a href="{{.EscapedName}}">{{.Name}}</a></li>
+                        {{end}}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-6">
+
+            <div class="card">
+                <div class="card-header">
+                    Here ⟶ Pages
+                </div>
+                <div class="card-block">
+                    <ul>
+                        {{range .OutgoingLinks}}
+                            <li><a href="{{.EscapedName}}">{{.Name}}</a></li>
+                        {{end}}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 {{template "partial_footer" .}}
 {{end}}

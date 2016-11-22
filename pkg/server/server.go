@@ -90,6 +90,7 @@ func Start(config Config) {
 	pageResource := &resource.PageResource{
 		PageService: pageService,
 		AuthService: authService,
+		LinkService: linkService,
 	}
 	userResource := &resource.UserResource{
 		AuthService: authService,

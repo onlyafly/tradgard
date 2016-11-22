@@ -27,8 +27,8 @@ type PageModel struct {
 	Updated time.Time `db:"updated"`
 }
 
-// PageInfo represents a page info
-type PageInfo struct {
+// PageAddressInfo represents a page info
+type PageAddressInfo struct {
 	Name        string
 	EscapedName string
 }
@@ -69,8 +69,44 @@ func transformWikiLinks(s string) string {
 	return output
 }
 
-// GetRecentlyUpdatedPageInfos get recently updated page names
-func (s *PageService) GetRecentlyUpdatedPageInfos(limit int) ([]*PageInfo, error) {
+// GetLinkedPageAddressInfosByToPageID gets from DB
+func (s *PageService) GetLinkedPageAddressInfosByToPageID(toPageID int64) ([]*PageAddressInfo, error) {
+	stmt := `SELECT name
+	         FROM pages
+	         WHERE id IN (
+				 SELECT from_page_id
+				 FROM links
+				 WHERE to_page_id = $1
+			 )`
+	pages := []*PageModel{}
+	err := s.DB.Select(&pages, stmt, toPageID)
+	if err != nil {
+		return nil, err
+	}
+
+	return generatePageAddressInfosFromPages(pages), nil
+}
+
+// GetLinkedPageAddressInfosByFromPageID gets from DB
+func (s *PageService) GetLinkedPageAddressInfosByFromPageID(fromPageID int64) ([]*PageAddressInfo, error) {
+	stmt := `SELECT name
+	         FROM pages
+	         WHERE id IN (
+				 SELECT to_page_id
+				 FROM links
+				 WHERE from_page_id = $1
+			 )`
+	pages := []*PageModel{}
+	err := s.DB.Select(&pages, stmt, fromPageID)
+	if err != nil {
+		return nil, err
+	}
+
+	return generatePageAddressInfosFromPages(pages), nil
+}
+
+// GetRecentlyUpdatedPageAddressInfos get recently updated page names
+func (s *PageService) GetRecentlyUpdatedPageAddressInfos(limit int) ([]*PageAddressInfo, error) {
 	stmt := `SELECT name
 	         FROM pages
 	         ORDER BY updated DESC
@@ -81,15 +117,18 @@ func (s *PageService) GetRecentlyUpdatedPageInfos(limit int) ([]*PageInfo, error
 		return nil, err
 	}
 
-	infos := make([]*PageInfo, len(pages))
+	return generatePageAddressInfosFromPages(pages), nil
+}
+
+func generatePageAddressInfosFromPages(pages []*PageModel) []*PageAddressInfo {
+	infos := make([]*PageAddressInfo, len(pages))
 	for i, page := range pages {
-		infos[i] = &PageInfo{
+		infos[i] = &PageAddressInfo{
 			Name:        page.Name,
 			EscapedName: url.QueryEscape(page.Name),
 		}
 	}
-
-	return infos, nil
+	return infos
 }
 
 // Get one page
