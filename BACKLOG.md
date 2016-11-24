@@ -5,15 +5,12 @@
 - [ ] Logins for multiple users (?)
 - [ ] Sections for pages owned by different users (?)
 - [ ] Forking pages to other Tradgard sites (?)
+- [ ] Private pages
 
 # Finding pages
 
 - [ ] Tag pages and search/list of tags
-- [ ] Columns at the bottom of the page showing pages linking to and from this page:
-
-Pages linking to this page  |  This Page  | Pages linked from this page
-----------------------------|-------------|----------------------------
-asdf                        |             |  adsfasdf
+- [x] Columns at the bottom of the page showing pages linking to and from this page
 
 # Viewing pages
 
@@ -38,6 +35,7 @@ asdf                        |             |  adsfasdf
 
 ## Other editing
 
+- [ ] When renaming a page, add a redirect from the old name to the new name
 - [ ] Drag and drop upload of images
 
 # Technical improvements
