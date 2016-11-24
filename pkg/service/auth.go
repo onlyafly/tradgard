@@ -29,7 +29,7 @@ func (s *AuthService) StoreUsernameInCookie(c echo.Context, username string) err
 	}
 
 	cookie.SetValue(encodedCookieString)
-	cookie.SetExpires(time.Now().Add(24 * time.Hour))
+	cookie.SetExpires(time.Now().Add(30 * 24 * time.Hour)) // Set the expiration for 30 days from now
 	cookie.SetPath("/")
 
 	c.SetCookie(cookie)
