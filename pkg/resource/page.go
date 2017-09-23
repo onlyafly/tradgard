@@ -13,6 +13,7 @@ import (
 
 type pageViewTemplateContext struct {
 	PageID        int64
+	SiteName      string
 	PageName      string
 	PageContent   template.HTML
 	EditPagePath  string
@@ -42,6 +43,7 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 	} else if p == nil {
 		data := pageViewTemplateContext{
 			PageID:       -1,
+			SiteName:     r.PageService.SiteName,
 			PageName:     unescapedName,
 			PageContent:  "",
 			EditPagePath: generateEditPagePath(&service.PageModel{Name: unescapedName}),
@@ -66,6 +68,7 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 
 	data := pageViewTemplateContext{
 		PageID:        p.ID,
+		SiteName:      r.PageService.SiteName,
 		PageName:      p.Name,
 		PageContent:   template.HTML(generatedHTML), // convert the string to HTML so that html/templates knows it can be trusted
 		EditPagePath:  generateEditPagePath(p),
@@ -91,6 +94,7 @@ func (r *PageResource) ViewEditByName(c echo.Context) error {
 
 	data := struct {
 		PageID       int64
+		SiteName     string
 		PageName     string
 		PageContent  string
 		SavePagePath string
@@ -98,7 +102,8 @@ func (r *PageResource) ViewEditByName(c echo.Context) error {
 		PageExists   bool
 		Context      echo.Context
 	}{
-		Context: c,
+		Context:  c,
+		SiteName: r.PageService.SiteName,
 	}
 
 	p, err := r.PageService.GetByName(unescapedName)

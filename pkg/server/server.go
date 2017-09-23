@@ -23,6 +23,7 @@ const cookieName = "tradgard-cookie"
 type Config struct {
 	Port     string
 	Database *sqlx.DB
+	SiteName string
 }
 
 // Start the web server
@@ -71,6 +72,7 @@ func Start(config Config) {
 	}
 	pageService := &service.PageService{
 		DB:          config.Database,
+		SiteName:    config.SiteName,
 		LinkService: linkService,
 	}
 	authService := &service.AuthService{

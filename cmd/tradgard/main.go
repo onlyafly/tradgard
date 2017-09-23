@@ -47,6 +47,7 @@ func main() {
 
 	config := server.Config{
 		Port:     getEnvOr("PORT", defaultPort),
+		SiteName: getEnvOr("SITE_NAME", "My Garden"),
 		Database: db,
 	}
 

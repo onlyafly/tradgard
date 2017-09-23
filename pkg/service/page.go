@@ -16,6 +16,7 @@ import (
 type PageService struct {
 	DB          *sqlx.DB
 	LinkService *LinkService
+	SiteName    string
 }
 
 // PageModel represents a page in the DB

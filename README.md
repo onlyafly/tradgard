@@ -2,7 +2,7 @@
 
 ## About
 
-**Tradgard** is a modern take a wiki. It is still pretty young.
+**Tradgard** is a modern take on a wiki. It's still pretty young.
 
 You can read the motivation behind Tradgard at [Tradgard's Motivation](http://garden.kevinalbrecht.com/Tradgard%27s+Motivation).
 
@@ -103,7 +103,7 @@ Fetch all referenced dependencies
 
 Kill the process
 
-    make clean
+    make kill
 
 ## License
 
