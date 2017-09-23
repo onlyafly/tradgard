@@ -96,6 +96,7 @@ func Start(config Config) {
 	}
 	userResource := &resource.UserResource{
 		AuthService: authService,
+		SiteName:    config.SiteName,
 	}
 
 	// Routes
@@ -116,6 +117,7 @@ func Start(config Config) {
 	// Static
 
 	e.Static("/", "static")
+	e.File("/favicon.ico", "static/favicon.ico") // Need to serve the favicon explicitly
 
 	// Start the server
 

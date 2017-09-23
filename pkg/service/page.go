@@ -182,8 +182,21 @@ func (s *PageService) RegeneratePageLinks(p *PageModel) error {
 		pother, err := s.GetByName(name)
 		if err != nil {
 			return err
-		} else if pother == nil {
-			continue
+		}
+
+		if pother == nil {
+			// Page does not yet exist, so we should create it so that we can link to it
+			pCreate := &PageModel{
+				Name:    name,
+				Content: "",
+			}
+			if err = s.Create(pCreate); err != nil {
+				return err
+			}
+			pother, err = s.GetByName(name)
+			if err != nil {
+				return err
+			}
 		}
 
 		if err := s.LinkService.AddLink(p.ID, pother.ID); err != nil {

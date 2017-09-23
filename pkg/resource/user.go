@@ -10,6 +10,7 @@ import (
 
 // UserResource represents a page resource
 type UserResource struct {
+	SiteName    string
 	AuthService *service.AuthService
 }
 
@@ -19,9 +20,11 @@ func (r *UserResource) ViewLogIn(c echo.Context) error {
 
 	data := struct {
 		Context     echo.Context
+		SiteName    string
 		LoginResult string
 	}{
 		c,
+		r.SiteName,
 		loginResult,
 	}
 
