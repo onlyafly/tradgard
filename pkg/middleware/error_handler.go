@@ -12,11 +12,15 @@ import (
 func respondError(c echo.Context, statusCode int, extraMessage string) error {
 	data := struct {
 		Context       echo.Context
+		SiteName      string
+		HeaderTitle   string
 		StatusCode    int
 		StatusMessage string
 		ExtraMessage  string
 	}{
 		c,
+		"Error",
+		"Error",
 		statusCode,
 		http.StatusText(statusCode),
 		extraMessage,

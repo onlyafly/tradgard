@@ -22,9 +22,11 @@ func (r *IndexResource) ViewIndex(c echo.Context) error {
 	data := struct {
 		Context     echo.Context
 		SiteName    string
+		HeaderTitle string
 		RecentPages []*service.PageAddressInfo
 	}{
 		c,
+		r.PageService.SiteName,
 		r.PageService.SiteName,
 		pageInfos,
 	}
