@@ -28,17 +28,21 @@ Set your GOPATH. In your ~/.profile file, add the following lines:
 
 You'll need to restart your terminal for the changes to take effect.
 
-Clone the Tradgard source code. Note that your should clone it into a subdirectory of the ~/src directory:
+Install Go's dep dependency management tool:
 
-    mkdir ~/src
-    cd ~/src
-    git clone https://github.com/onlyafly/tradgard.git
+    brew install dep
 
 ### Installation Step #2: Install Postgres
 
 Install Postgres on your machine.
 
 ### Installation Step #3: Setup Tradgard
+
+Clone the Tradgard source code. Note that your should clone it into a subdirectory of the ~/src directory:
+
+    mkdir ~/src
+    cd ~/src
+    git clone https://github.com/onlyafly/tradgard.git
 
 Create a Postgres database called "tradgard".
 
@@ -77,25 +81,32 @@ Visit the site:
 
 ### Dependency management
 
-See if anything is missing
+Check the status of all dependencies
 
-    govendor list
+    dep status
 
 Add a new dependency
 
-    govendor fetch <package>
+    dep ensure -add <package>
 
-Updating an existing dependency
+Visualize dependencies
 
-    govendor fetch <package>@<version>
+    brew install graphviz
+    dep status -dot | dot -T png | open -f -a /Applications/Preview.app
+
+Force an update of dependencies to newest version
+
+    dep ensure -update <package>
 
 Removing unused dependencies
 
-    govendor remove +u
+    1. Remove the imports and all usage from your code.
+    2. Remove [[constraint]] rules from Gopkg.toml (if any).
+    3. Run `dep ensure`
 
 Fetch all referenced dependencies
 
-    govendor fetch +e
+    dep ensure
 
 ## Troubleshooting
 

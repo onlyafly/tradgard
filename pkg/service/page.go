@@ -39,7 +39,16 @@ func (s *PageService) GenerateHTML(p *PageModel) string {
 	transformedContent := transformWikiLinks(p.Content)
 
 	// See blackfriday's Markdown rendering: https://github.com/russross/blackfriday
-	unsafeHTMLContent := blackfriday.MarkdownCommon([]byte(transformedContent))
+
+	unsafeHTMLContent := blackfriday.MarkdownCommon(
+		[]byte(transformedContent),
+	)
+	/* TODO: after upgrading to 2.0.0
+	unsafeHTMLContent := blackfriday.Run(
+		[]byte(transformedContent),
+		blackfriday.WithExtensions(blackfriday.CommonExtensions|blackfriday.HardLineBreak|blackfriday.AutoHeadingIDs|blackfriday.Autolink),
+	)
+	*/
 
 	// See how bluemonday prevents XSS here: https://github.com/microcosm-cc/bluemonday
 	safeHTMLContent := bluemonday.UGCPolicy().SanitizeBytes(unsafeHTMLContent)

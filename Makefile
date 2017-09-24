@@ -6,8 +6,7 @@ all: serve
 
 deps:
 	go get -u github.com/mattes/migrate
-	go get -u github.com/kardianos/govendor
-	govendor sync
+	dep ensure
 	brew install fswatch
 
 serve: restart
