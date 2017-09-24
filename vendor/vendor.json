@@ -1,0 +1,11 @@
+{
+  "comment": "This repo uses dep, not govendor, but the Heroku Go buildpack requires this",
+  "rootPath": "github.com/onlyafly/tradgard",
+  "heroku": {
+    "goVersion": "go1.9",
+    "install": [
+      "./cmd/tradgard"
+    ],
+    "sync": false
+  }
+}

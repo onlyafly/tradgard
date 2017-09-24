@@ -7,6 +7,7 @@ all: serve
 deps:
 	go get -u github.com/mattes/migrate
 	dep ensure
+	git checkout vendor/vendor.json
 	brew install fswatch
 
 serve: restart
