@@ -88,6 +88,7 @@ Check the status of all dependencies
 Add a new dependency
 
     dep ensure -add <package>
+    git checkout vendor/vendor.json
 
 Visualize dependencies
 
@@ -97,16 +98,19 @@ Visualize dependencies
 Force an update of dependencies to newest version
 
     dep ensure -update <package>
+    git checkout vendor/vendor.json
 
 Removing unused dependencies
 
     1. Remove the imports and all usage from your code.
     2. Remove [[constraint]] rules from Gopkg.toml (if any).
     3. Run `dep ensure`
+    4. Run `git checkout vendor/vendor.json`
 
 Fetch all referenced dependencies
 
     dep ensure
+    git checkout vendor/vendor.json
 
 ## Troubleshooting
 
