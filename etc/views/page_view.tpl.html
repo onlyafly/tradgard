@@ -2,10 +2,10 @@
 {{template "partial_header" .}}
 <h1 class="display-4 tg-page-title">{{.PageName}}</h1>
 
-<section>
+<article>
     {{if .Exists}} {{.PageContent}} {{else}}
     <i>This page doesn't exist yet. <a href="{{.EditPagePath}}">Want to create it?</a></i> {{end}}
-</section>
+</article>
 
 <br><hr><br>
 
