@@ -50,6 +50,15 @@ h2 {
 
 /***** Navigation *****/
 
+li.toc-li-h1 { margin-left: 0; }
+li.toc-li-h2 { margin-left: 1em; }
+li.toc-li-h3 { margin-left: 2em; }
+li.toc-li-h4 { margin-left: 3em; }
+li.toc-li-h5 { margin-left: 4em; }
+li.toc-li-h6 { margin-left: 5em; }
+
+/***** Navigation *****/
+
 .tg-main-logo {
   font-size: 26px;
   margin-right: 20px;

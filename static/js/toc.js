@@ -2,38 +2,36 @@ var headerToIdent = function(input) {
   return input.replace(/[^a-zA-Z]/g, "_").toLowerCase();
 };
 
-var nav =
-  "<nav role='navigation' class='table-of-contents'>" +
-  "<h2>Contents</h2>" +
-  "<ul>";
+var output = "";
 
 var processHeader = function() {
   var el = $(this);
+  var tag = el.prop("tagName").toLowerCase();
   var title = el.text();
   var ident = headerToIdent(title);
   el.attr("id", ident);
   var link = "#" + ident;
 
   var newItem =
-    "<li>" +
+    "<li class='toc-li-" + tag + "'>" +
       "<a href='" + link + "'>" +
         title +
       "</a>" +
     "</li>";
 
-  nav += newItem;
+  output += newItem;
 };
 
-$("article h1").each(processHeader);
+$("article h1, article h2, article h3, article h4, article h5, article h6").each(processHeader);
 
-$("article h2").each(processHeader);
-$("article h3").each(processHeader);
-$("article h4").each(processHeader);
-$("article h5").each(processHeader);
+if (output.length > 0) {
+  var nav =
+    "<nav role='navigation' class='table-of-contents'>" +
+    "<h2>Contents</h2>" +
+    "<ul>" +
+    output +
+    "</ul>" +
+    "</nav>";
 
-nav +=
-  "</ul>" +
-  "<ul><li>A</li><li><ul><li>AA</li></ul></li></ul>"
-  "</nav>";
-
-$("article").prepend(nav);
+  $("article").prepend(nav);
+}
