@@ -17,12 +17,14 @@
                 <div class="card-header">
                     Links to This Page
                 </div>
-                <div class="card-block">
+                <div class="card-body">
+                  <p class="card-text">
                     <ul>
                         {{range .IncomingLinks}}
                             <li><a href="{{.EscapedName}}">{{.Name}}</a></li>
                         {{end}}
                     </ul>
+                  </p>
                 </div>
             </div>
 
@@ -34,12 +36,14 @@
                 <div class="card-header">
                     Pages Referenced Here
                 </div>
-                <div class="card-block">
+                <div class="card-body">
+                  <p class="card-text">
                     <ul>
                         {{range .OutgoingLinks}}
                             <li><a href="{{.EscapedName}}">{{.Name}}</a></li>
                         {{end}}
                     </ul>
+                  </p>
                 </div>
             </div>
 
