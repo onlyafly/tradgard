@@ -25,13 +25,17 @@ var processHeader = function() {
 $("article h1, article h2, article h3, article h4, article h5, article h6").each(processHeader);
 
 if (output.length > 0) {
-  var nav =
-    "<nav role='navigation' class='table-of-contents'>" +
-    "<h2>Contents</h2>" +
+  var card =
+    "<div class='card bg-light mb-3 float-md-right'>" +
+    "<div class='card-body'>" +
+    "<h4 class='card-title'>Page Contents</h4>" +
+    "<p class='card-text'>" +
     "<ul>" +
     output +
     "</ul>" +
-    "</nav>";
+    "</p>" +
+    "</div>" +
+    "</div>";
 
-  $("article").prepend(nav);
+  $("article").prepend(card);
 }
