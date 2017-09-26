@@ -1,90 +1,93 @@
 /***** Site-wide style *****/
 
 a {
-    color: #21bf6a;
+  color: #21bf6a;
 }
 
 a:focus, a:hover {
-    color: #018c81;
+  color: #018c81;
 }
 
 blockquote {
-    background: #f9f9f9;
-    border-left: 10px solid #ccc;
-    margin: 1.5em 10px;
-    padding: 0.5em 10px;
-    quotes: "\201C" "\201D" "\201C" "\201D";
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C" "\201D" "\201C" "\201D";
 }
 
 blockquote:before {
-    color: #ccc;
-    content: open-quote;
-    font-size: 4em;
-    line-height: 0.1em;
-    margin-right: 0.25em;
-    vertical-align: -0.4em;
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
 }
 
 blockquote p {
-    display: inline;
+  display: inline;
 }
 
-h1 {
-}
+h1 {}
 
 h2 {
-    margin-top: 26px;
+  margin-top: 26px;
 }
+
 
 /***** Title *****/
 
 .tg-title-text-input {
-    font-weight: bold;
-    font-size: 2rem;
+  font-weight: bold;
+  font-size: 2rem;
 }
 
 .tg-page-title {
   font-weight: 700;
 }
 
+
 /***** Navigation *****/
 
 .tg-main-logo {
-    font-size: 26px;
-    margin-right: 20px;
+  font-size: 26px;
+  margin-right: 20px;
 }
 
 .tg-nav-item {
-    font-size: 26px;
+  font-size: 26px;
 }
 
 .tg-nav-actions {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .tg-nav-username {
-    color: #ccc;
-    margin-right: 20px;
+  color: #ccc;
+  margin-right: 20px;
 }
 
 .tg-nav-hr {
-    margin-top: 22px;
-    margin-bottom: 22px;
+  margin-top: 22px;
+  margin-bottom: 22px;
 }
+
 
 /***** Tables *****/
 
 table {
   border-collapse: collapse !important;
 }
-table td,
-table th {
+
+table td, table th {
   background-color: #fff !important;
 }
-table-bordered th,
-table-bordered td {
+
+table-bordered th, table-bordered td {
   border: 1px solid #ddd !important;
 }
+
 
 /*
 table {
@@ -94,8 +97,7 @@ table {
 }
 */
 
-table th,
-table td {
+table th, table td {
   padding: 0.75rem;
   vertical-align: top;
   border-top: 1px solid #eceeef;
@@ -106,7 +108,7 @@ table thead th {
   border-bottom: 2px solid #eceeef;
 }
 
-table tbody + tbody {
+table tbody+tbody {
   border-top: 2px solid #eceeef;
 }
 
@@ -114,12 +116,10 @@ table {
   border: 1px solid #eceeef;
 }
 
-table th,
-table td {
+table th, table td {
   border: 1px solid #eceeef;
 }
 
-table thead th,
-table thead td {
+table thead th, table thead td {
   border-bottom-width: 2px;
 }

@@ -25,6 +25,7 @@ var processHeader = function() {
 };
 
 $("article h1").each(processHeader);
+
 $("article h2").each(processHeader);
 $("article h3").each(processHeader);
 $("article h4").each(processHeader);
@@ -32,6 +33,7 @@ $("article h5").each(processHeader);
 
 nav +=
   "</ul>" +
+  "<ul><li>A</li><li><ul><li>AA</li></ul></li></ul>"
   "</nav>";
 
 $("article").prepend(nav);
