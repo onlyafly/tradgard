@@ -14,7 +14,12 @@ type IndexResource struct {
 
 // ViewIndex shows the index page
 func (r *IndexResource) ViewIndex(c echo.Context) error {
-	pageInfos, err := r.PageService.GetRecentlyUpdatedPageAddressInfos(10)
+	recents, err := r.PageService.GetRecentlyUpdatedPageAddressInfos(10)
+	if err != nil {
+		return err
+	}
+
+	orphans, err := r.PageService.GetOrphanedPageAddressInfos(10)
 	if err != nil {
 		return err
 	}
@@ -24,11 +29,13 @@ func (r *IndexResource) ViewIndex(c echo.Context) error {
 		SiteName    string
 		HeaderTitle string
 		RecentPages []*service.PageAddressInfo
+		OrphanPages []*service.PageAddressInfo
 	}{
 		c,
 		r.PageService.SiteName,
 		r.PageService.SiteName,
-		pageInfos,
+		recents,
+		orphans,
 	}
 	return c.Render(http.StatusOK, "index", data)
 }

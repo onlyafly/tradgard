@@ -61,7 +61,9 @@ Install all dependencies:
 
 ### Installation Step #4: Deploy to Heroku
 
-*TODO*
+If you want to deploy to Heroku, you'll want to install the Heroku CLI:
+
+    brew install heroku/brew/heroku
 
 ## Running the Webserver
 

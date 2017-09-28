@@ -115,6 +115,22 @@ func (s *PageService) GetLinkedPageAddressInfosByFromPageID(fromPageID int64) ([
 	return generatePageAddressInfosFromPages(pages), nil
 }
 
+// GetOrphanedPageAddressInfos gets page infos for orphaned pages
+func (s *PageService) GetOrphanedPageAddressInfos(limit int) ([]*PageAddressInfo, error) {
+	stmt := `SELECT p.name FROM pages p
+					 LEFT OUTER JOIN links l ON l.to_page_id = p.id
+					 WHERE l.id IS NULL
+	         ORDER BY p.updated DESC
+	         LIMIT $1`
+	pages := []*PageModel{}
+	err := s.DB.Select(&pages, stmt, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	return generatePageAddressInfosFromPages(pages), nil
+}
+
 // GetRecentlyUpdatedPageAddressInfos get recently updated page names
 func (s *PageService) GetRecentlyUpdatedPageAddressInfos(limit int) ([]*PageAddressInfo, error) {
 	stmt := `SELECT name

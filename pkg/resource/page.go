@@ -45,7 +45,7 @@ func (r *PageResource) ViewByName(c echo.Context) error {
 		data := pageViewTemplateContext{
 			PageID:       -1,
 			SiteName:     r.PageService.SiteName,
-			HeaderTitle:  p.Name + " | " + r.PageService.SiteName,
+			HeaderTitle:  unescapedName + " | " + r.PageService.SiteName,
 			PageName:     unescapedName,
 			PageContent:  "",
 			EditPagePath: generateEditPagePath(&service.PageModel{Name: unescapedName}),

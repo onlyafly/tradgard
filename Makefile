@@ -17,6 +17,7 @@ before_restart:
 	@echo "Restarting..."
 
 kill:
+	cat $(PID)
 	@pkill -P `cat $(PID)` || true
 	@killall tradgard || true
 
@@ -34,5 +35,6 @@ build:
 
 restart: before_restart kill build
 	@heroku local & echo $$! > $(PID)
+	cat $(PID)
 
 .PHONY: all build deps kill migrate-down-1 migrate-up migrate-version serve restart

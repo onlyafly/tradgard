@@ -29,11 +29,11 @@ blockquote p {
   display: inline;
 }
 
-h1 {}
-
-h2 {
-  margin-top: 26px;
+h1 {
+  margin-bottom: 1.5rem;
 }
+
+h2 {}
 
 
 /***** Title *****/

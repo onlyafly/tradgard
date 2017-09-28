@@ -4,11 +4,25 @@
 
 <h2>Visit <a href="/Home">Home</a>, your home page</h2>
 
-<h2>Recently Updated Pages</h2>
-<ol>
-  {{range .RecentPages}}
-    <li><a href="{{.EscapedName}}">{{.Name}}</a></li>
-  {{end}}
-</ol>
+<div class="row">
+  <div class="col-sm-6">
+    <h2>Recently Updated Pages</h2>
+    <ol>
+      {{range .RecentPages}}
+        <li><a href="{{.EscapedName}}">{{.Name}}</a></li>
+      {{end}}
+    </ol>
+  </div>
+
+  <div class="col-sm-6">
+    <h2>Orphaned Pages</h2>
+    <ol>
+      {{range .OrphanPages}}
+        <li><a href="{{.EscapedName}}">{{.Name}}</a></li>
+      {{end}}
+    </ol>
+  </div>
+</div>
+
 {{template "partial_footer" .}}
 {{end}}
