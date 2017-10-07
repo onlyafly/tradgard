@@ -49,6 +49,11 @@
   branch = "master"
   name = "github.com/microcosm-cc/bluemonday"
 
+#
+#
+# NOTE: Do not upgrade to 2.x until this bug is fixed: https://github.com/russross/blackfriday/issues/394
+#
+#
 [[constraint]]
   name = "github.com/russross/blackfriday"
   version = "1.5.0"
