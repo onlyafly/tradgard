@@ -21,9 +21,11 @@ func (r *UserResource) ViewLogIn(c echo.Context) error {
 	data := struct {
 		Context     echo.Context
 		SiteName    string
+		HeaderTitle string
 		LoginResult string
 	}{
 		c,
+		r.SiteName,
 		r.SiteName,
 		loginResult,
 	}
