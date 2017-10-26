@@ -20,6 +20,12 @@
 #  name = "github.com/x/y"
 #  version = "2.4.0"
 
+# --------------
+# Heroku Support
+# --------------
+#
+# See https://devcenter.heroku.com/articles/go-support#go-versions
+# See https://devcenter.heroku.com/articles/go-apps-with-dep#build-configuration
 [metadata.heroku]
   root-package = "github.com/onlyafly/tradgard"
   go-version = "go1.9"
