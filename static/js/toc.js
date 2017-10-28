@@ -26,7 +26,7 @@ $("article h1, article h2, article h3, article h4, article h5, article h6").each
 
 if (output.length > 0) {
   var card =
-    "<div class='card bg-light mb-3 float-md-right'>" +
+    "<div class='tradgard-toc card bg-light mb-3 float-md-right'>" +
     "<div class='card-body'>" +
     "<h4 class='card-title'>Page Contents</h4>" +
     "<p class='card-text'>" +

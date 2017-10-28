@@ -132,3 +132,8 @@ table th, table td {
 table thead th, table thead td {
   border-bottom-width: 2px;
 }
+
+.tradgard-toc {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
